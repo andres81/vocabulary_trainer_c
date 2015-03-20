@@ -1,0 +1,32 @@
+.indentmenu {
+font: bold 13px Arial;
+width: 100%;
+overflow: hidden;
+}
+
+.indentmenu ul {
+margin: 0;
+padding: 7px;
+border: 1px solid #564c66;
+border-width: 1px 0;
+background: green;
+text-align: center;
+}
+
+.indentmenu ul li {
+display: inline;
+list-decoration-type: none;
+}
+
+.indentmenu ul li a {
+color: white;
+padding: 5px 11px;
+text-decoration: none;
+}
+
+.indentmenu ul li a:hover, .indentmenu ul li .current {
+color: yellow;
+padding-top: 6px; /*shift text down 1px for selected and active item*/
+padding-bottom: 4px; /*shift text down 1px for selected and active item*/
+background: darkgreen;
+}

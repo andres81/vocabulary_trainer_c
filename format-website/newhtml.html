@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" type="text/css" href="css/stm-t.css">
+        
+    </head>
+    
+    <body>
+        
+        <div id="voctrainer"></div>
+        
+        <div style="text-align: center">
+            <button id="reversebutton">Reverse the lists</button><br>
+            <button id="nextgroupbutton">Next group</button><br>
+            <button id="showalloptionsbutton">Show all options</button>
+        </div>
+        
+        <div style="text-align: center">
+            <div style="display: inline;">
+                <textarea id="voc1" style="width:30%;height:500px"></textarea>
+                <textarea id="voc2" style="width:30%;height:500px"></textarea>
+            </div>
+            <br><br><br>
+            <button id="submitvocabularies">Submit vocabularies</button>
+        </div>
+        
+        <script src="js/jquery.js"></script>
+        <script src="js/stm-t.js"></script>
+        <script src="js/vocabulary-trainer.js"></script>
+        <script src="js/vocabulary-submitter.js"></script>
+        
+        <script type="text/javascript">
+            
+            $(document).ready(function(){
+                
+                $('#nextgroupbutton').click(function(event) {
+                    setListsStmT(nextGroupVocTrainer());
+                });
+                
+                $('#reversebutton').click(function(event) {
+                    reverseListsStmT();
+                });
+                
+                $('#showalloptionsbutton').click(function(event) {
+                    showAllOptionsStmT();
+                });
+                
+                $('#submitvocabularies').click(function(event) {
+                    var elems = submitVocabularies();
+                    setListsStmT(setListsVocTrainer(elems));
+                });
+
+            });
+            
+        </script>
+        
+    </body>
+    
+</html>

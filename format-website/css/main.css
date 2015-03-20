@@ -1,0 +1,14 @@
+body {
+	background: #AFEEEE;
+}
+
+#webtitle {
+	color: green;
+	text-align: center;
+}
+
+#webtitleDiv {
+	background: #FFFF99;
+	padding: 0px;
+	margin: 0px;
+}

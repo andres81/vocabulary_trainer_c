@@ -1,0 +1,134 @@
+.guessBox {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight:bold;
+}
+
+.optionBox {
+  text-align: center;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.bold {
+  font-weight:bold;
+}
+
+.displaynone {
+  display: none;
+}
+
+div.colorBox
+{
+  width:        80px;
+  height:       20px;
+  cursor:       help;
+  border:       solid 1px white;
+  margin:       4px;
+  margin-left:  auto;
+  margin-right: auto;
+}
+
+div#voctrainer {
+  background-color: green;
+  border: 5px solid white;
+  color: white;
+  border-radius: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  width: 70%;
+  padding: 50px;
+}
+
+.mousepointer {
+  cursor: pointer;
+}
+
+.black {
+    background-color: black;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.brown {
+    background-color: brown;
+}
+
+.gray {
+    background-color: gray;
+}
+
+.green {
+    background-color: green;
+}
+
+.orange {
+    background-color: orange;
+}
+
+.pink {
+    background-color: pink;
+}
+
+.purple {
+    background-color: purple;
+}
+
+.red {
+    background-color: red;
+}
+
+.white {
+    background-color: white;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.blackText {
+    color: black;
+}
+
+.blueText {
+    color: blue;
+}
+
+.brownText {
+    color: brown;
+}
+
+.grayText {
+    color: gray;
+}
+
+.greenText {
+    color: green;
+}
+
+.orangeText {
+    color: orange;
+}
+
+.pinkText {
+    color: pink;
+}
+
+.purpleText {
+    color: purple;
+}
+
+.redText {
+    color: red;
+}
+
+.whiteText {
+    color: white;
+}
+
+.yellowText {
+    color: yellow;
+}

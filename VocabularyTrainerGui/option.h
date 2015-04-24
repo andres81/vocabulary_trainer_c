@@ -1,20 +1,20 @@
 #ifndef OPTION_H
 #define OPTION_H
 
+#include <string>
 
 class Option
 {
-
-    const char* uuid;
-    const char* title;
-
+    std::string uuid;
+    std::string title;
+    
 public:
-    Option(const char*, const char*);
+    Option(std::string uuid, std::string title);
+    Option(const Option& orig);
     ~Option();
-
-    const char* getUuid();
-    const char* getTitle();
-    void setTitle(const char*);
+    std::string getUuid();
+    std::string getTitle();
+    void setTitle(std::string);
 };
 
 #endif // OPTION_H

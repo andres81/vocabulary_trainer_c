@@ -5,9 +5,7 @@
  * Created on April 24, 2015, 2:16 PM
  */
 
-#include "mainwindow.h"
-#include "fiveoptioncontainer.h"
-#include "option.h"
+#include "widget-vocabularytrainer.h"
 #include <QApplication>
 
 #include <iostream>
@@ -21,7 +19,7 @@ int main(int argc, char *argv[]) {
 
     // create and show your widgets here
 
-    MainWindow *w = new MainWindow;
+//    MainWindow *w = new MainWindow;
 
 
     Option *option1 = new Option("1111", "Ik heb vandaag vijf appels moeten kopen!");
@@ -35,11 +33,14 @@ int main(int argc, char *argv[]) {
                          option3,
                          option4,
                          option5};
-    FiveOptionContainer *optionContainer = new FiveOptionContainer(options, w);
-    w->setCentralWidget(optionContainer);
-    QObject::connect(optionContainer, SIGNAL(optionChosen(QString)), w, SLOT(optionChosen(QString)));
+//    WidgetOptionChooser *optionContainer = new WidgetOptionChooser(options, w);
+//    w->setCentralWidget(optionContainer);
+    
+    WidgetVocabularyTrainer vocTrainer(options);
+    
+//    QObject::connect(optionContainer, SIGNAL(optionChosen(QString)), w, SLOT(optionChosen(QString)));
 
-    w->show();
+    vocTrainer.show();
     
     return app.exec();
 }

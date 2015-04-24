@@ -5,3 +5,6 @@
 /VocabularyTrainerGui/Makefile
 /VocabularyTrainerGui/moc_*
 /VocabularyTrainerGui/*.kate-swp
+*.o
+*.pro
+VocabularyTrainerGui/VocabularyTrainerGui

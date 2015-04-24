@@ -1,26 +1,53 @@
 #include "option.h"
 
-Option::Option(const char* uuid, const char* title)
+/**
+ */
+Option::Option(std::string uuid, std::string title)
 {
     this->uuid = uuid;
     setTitle(title);
 }
 
+/**
+ * 
+ * @param orig
+ */
+Option::Option(const Option& orig)
+{
+    this->uuid = orig.uuid;
+    this->title = orig.title;
+}
+
+/**
+ * 
+ */
 Option::~Option()
 {
 
 }
 
-const char* Option::getUuid() {
+/**
+ * 
+ * @return 
+ */
+std::string Option::getUuid() {
     return uuid;
 }
 
-void Option::setTitle(const char* title)
+/**
+ * 
+ * @param title
+ */
+void Option::setTitle(std::string title)
 {
     this->title = title;
 }
 
-const char* Option::getTitle()
+/**
+ * 
+ * @return 
+ */
+std::string Option::getTitle()
 {
-    return this->title;
+    return title;
 }

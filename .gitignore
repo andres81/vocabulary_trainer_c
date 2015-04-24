@@ -1,0 +1,7 @@
+/VocabularyTrainerGui/build/
+/VocabularyTrainerGui/dist/
+/VocabularyTrainerGui/nbproject/
+/VocabularyTrainerGui/.dep.inc
+/VocabularyTrainerGui/Makefile
+/VocabularyTrainerGui/moc_*
+/VocabularyTrainerGui/*.kate-swp

@@ -28,12 +28,16 @@ class Option
     std::string title;
     
 public:
+    Option(std::string uuid);
     Option(std::string uuid, std::string title);
     Option(const Option& orig);
     ~Option();
-    std::string getUuid();
-    std::string getTitle();
+    std::string getUuid() const;
+    std::string getTitle() const;
     void setTitle(std::string);
 };
+
+inline bool operator==(const Option& lhs, const Option& rhs){ return lhs.getUuid() == rhs.getUuid(); }
+inline bool operator!=(const Option& lhs, const Option& rhs){return !(lhs == rhs);}
 
 #endif // OPTION_H

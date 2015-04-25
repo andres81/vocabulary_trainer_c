@@ -19,12 +19,20 @@
 
 #include "option.h"
 
+#include <iostream>
+
+/**
+ */
+Option::Option(std::string uuid)
+    : uuid(uuid)
+{
+}
+
 /**
  */
 Option::Option(std::string uuid, std::string title)
+    :uuid(uuid),title(title)
 {
-    this->uuid = uuid;
-    setTitle(title);
 }
 
 /**
@@ -32,6 +40,7 @@ Option::Option(std::string uuid, std::string title)
  * @param orig
  */
 Option::Option(const Option& orig)
+    : uuid(orig.uuid), title(orig.title)
 {
     this->uuid = orig.uuid;
     this->title = orig.title;
@@ -42,14 +51,13 @@ Option::Option(const Option& orig)
  */
 Option::~Option()
 {
-
 }
 
 /**
  * 
  * @return 
  */
-std::string Option::getUuid() {
+std::string Option::getUuid() const {
     return uuid;
 }
 
@@ -66,7 +74,6 @@ void Option::setTitle(std::string title)
  * 
  * @return 
  */
-std::string Option::getTitle()
-{
+std::string Option::getTitle () const {
     return title;
 }

@@ -26,25 +26,32 @@
 
 #include "option.h"
 #include "widget-optionchooser.h"
-#include "widget-optionquestion.h"
+#include "WidgetVocabularyEntryPresenter.h"
+#include "option-controller.h"
+#include "observer-interface.h"
 
 
-class WidgetVocabularyTrainer : public QWidget
+class WidgetVocabularyTrainer : public QWidget, ObserverInterface
 {
-
     Q_OBJECT
 
     WidgetOptionChooser *optionChooser = NULL;
-    WidgetOptionQuestion *optionQuestion = NULL;
-    
+    WidgetVocabularyEntryPresenter *optionQuestion = NULL;
     std::string currentOptionUuid;
+    OptionController *controller = NULL;
+    OptionsModel *model = NULL;
     
 private slots:
     void optionChosen(QString);
-
+    
 public:
-    WidgetVocabularyTrainer(Option* options[5], QWidget* parent = 0);
+    WidgetVocabularyTrainer(OptionsModel* model, OptionController* controller, QWidget* parent = 0);
     ~WidgetVocabularyTrainer();
+    virtual void Update(SubjectInterface* changedSubject, std::string changeAspect);
+    
+private:
+    void updateActiveOption();
+    void updateActiveOptions();
 };
 
 #endif // VOCABULARYTRAINERWIDGET_H

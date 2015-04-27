@@ -17,32 +17,37 @@
 
 
 
-#ifndef WIDGETOPTIONCHOOSER_H
-#define WIDGETOPTIONCHOOSER_H
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
-#include <QWidget>
-#include <QPushButton>
-#include <QSignalMapper>
-
+#include "WidgetVocabularyEntryPresenter.h"
 #include "option.h"
 
-class WidgetOptionChooser : public QWidget
+#include <QHBoxLayout>
+
+/**
+ * 
+ * @param options
+ * @param parent
+ */
+WidgetVocabularyEntryPresenter::WidgetVocabularyEntryPresenter(QWidget* parent) : QWidget(parent)
 {
+    textLabel = new QLabel();
+    QHBoxLayout* hBoxLayout = new QHBoxLayout();
+    hBoxLayout->addStretch();
+    hBoxLayout->addWidget(textLabel);
+    hBoxLayout->addStretch();
+    setLayout(hBoxLayout);
+}
 
-    Q_OBJECT
+/**
+ * 
+ */
+WidgetVocabularyEntryPresenter::~WidgetVocabularyEntryPresenter()
+{
+}
 
-signals:
-        void optionChosen(QString optionUuid);
-
-private:
-    std::vector<Option> options;
-    QSignalMapper *signalMapper = NULL;
-
-public:
-    explicit WidgetOptionChooser(QWidget* parent = 0);
-    ~WidgetOptionChooser();
-
-    void setOptions(std::vector<Option>);
-};
-
-#endif // WIDGETOPTIONCHOOSER_H
+void WidgetVocabularyEntryPresenter::setVocabularyEntry(Option entry) {
+    this->entry = entry;
+    textLabel->setText(entry.getTitle().c_str());
+}

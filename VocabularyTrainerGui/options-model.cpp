@@ -24,6 +24,7 @@
  * @param orig
  */
 OptionsModel::OptionsModel(const OptionsModel& orig) 
+: options(orig.options)
 {
 }
 
@@ -31,7 +32,7 @@ OptionsModel::OptionsModel(const OptionsModel& orig)
  * 
  */
 OptionsModel::~OptionsModel() {
-    
+ //TODO when this Subject is destroyed, notify all observers of being destroyed!!!   
 }
 
 /**
@@ -50,6 +51,8 @@ void OptionsModel::setActiveOption(std::string optionUuid) {
     std::vector<Option>::iterator it = std::find(options.begin(), options.end(), Option(optionUuid));
     if (it != options.end()) {
         activeOptionView = &(*it);
+        changeAspect = "activeOption";
+        Notify();
     } else {
         activeOptionView = NULL;
     }
@@ -88,4 +91,20 @@ void OptionsModel::setOptions(std::vector<Option> options) {
     this->options = options;
     activeOptionView = NULL;
     activeOptionsView.clear();
+}
+
+void OptionsModel::Attach(ObserverInterface* o) {
+    observers.push_back(o);
+}
+
+void OptionsModel::Detach(ObserverInterface* o) {
+    observers.erase(std::remove(observers.begin(), observers.end(), o), observers.end());
+}
+
+void OptionsModel::Notify() {
+    std::vector<ObserverInterface*>::iterator it = observers.begin();
+    while (it != observers.end()) {
+        (*it)->Update(this, changeAspect);
+        ++it;
+    }
 }

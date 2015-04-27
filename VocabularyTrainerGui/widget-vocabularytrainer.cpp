@@ -15,36 +15,77 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "widget-vocabularytrainer.h"
+#include "options-model.h"
+#include "option-controller.h"
 
-#include <iostream>
-
-WidgetVocabularyTrainer::WidgetVocabularyTrainer(Option* options[5], QWidget *parent)
+WidgetVocabularyTrainer::WidgetVocabularyTrainer(OptionsModel* model, OptionController* controller, QWidget *parent)
     : QWidget(parent)
 {
-    optionChooser = new WidgetOptionChooser(options, this);
-    optionQuestion = new WidgetOptionQuestion(options, this);
-    
-    currentOptionUuid = optionQuestion->setNewOption();
-    
+    this->model = model;
+    this->controller = controller;
+    optionChooser = new WidgetOptionChooser(this);
+    optionQuestion = new WidgetVocabularyEntryPresenter(this);
+    updateActiveOption();
+    updateActiveOptions();
     QObject::connect(optionChooser, SIGNAL(optionChosen(QString)), this, SLOT(optionChosen(QString)));
-    
     QVBoxLayout* vBoxLayout = new QVBoxLayout();
     vBoxLayout->addWidget(optionQuestion);
     vBoxLayout->addWidget(optionChooser);
     vBoxLayout->addStretch();
     setLayout(vBoxLayout);
+    model->Attach(this);
 }
 
+/**
+ * 
+ */
 WidgetVocabularyTrainer::~WidgetVocabularyTrainer()
 {
-
 }
 
+/**
+ * 
+ * @param optionUuid
+ */
 void WidgetVocabularyTrainer::optionChosen(QString optionUuid) {
-    if (optionUuid.compare(currentOptionUuid.c_str()) == 0) {
-        currentOptionUuid = optionQuestion->setNewOption();
+    if (controller) {
+        controller->makeGuess(optionUuid.toStdString());
     }
+}
+
+/**
+ * 
+ * @param changedSubject
+ */
+void WidgetVocabularyTrainer::Update(SubjectInterface* changedSubject, std::string aspect) {
+    if (changedSubject == model) {
+        if (aspect == "activeOption") {
+            updateActiveOption();
+        } else if (aspect == "activeOptions") {
+            updateActiveOptions();
+        }
+   } 
+}
+
+/**
+ * 
+ */
+void WidgetVocabularyTrainer::updateActiveOptions() {
+    std::vector<const Option*> activeOptions = model->getActiveOptions();
+    std::vector<const Option*>::iterator it = activeOptions.begin();
+    std::vector<Option> options;
+    while (it != activeOptions.end()) {
+        options.push_back(Option(**it));
+        ++it;
+    }
+    optionChooser->setOptions(options);
+}
+
+/**
+ * 
+ */
+void WidgetVocabularyTrainer::updateActiveOption() {
+    Option option = *model->getActiveOption();
+    optionQuestion->setVocabularyEntry(option);
 }

@@ -21,36 +21,37 @@
 #include <cstdlib>
 #include <ctime>
 
-OptionController::OptionController(OptionsModel model)
+OptionController::OptionController(OptionsModel* model)
 : model(model)
 {
 }
 
-OptionController::OptionController(const OptionController& orig) {
+OptionController::OptionController(const OptionController& orig) 
+: model(orig.model)
+{
 }
 
 OptionController::~OptionController() {
 }
 
-void OptionController::setModel(OptionsModel model) {
+void OptionController::setModel(OptionsModel* model) {
     this->model = model;
 }
 
-OptionsModel OptionController::getModel() {
-    return model;
-}
-
 void OptionController::makeGuess(std::string uuid) {
-    const Option* activeOption = model.getActiveOption();
+    const Option* activeOption = model->getActiveOption();
     if (!activeOption) return;
     if (activeOption->getUuid() == uuid) {
-        std::vector<const Option*> activeOptions = model.getActiveOptions();
-        srand(time(NULL));
-        int randomIndex = rand() % 5;
-        // Prevent setting the former active option again as active option!
-        if (activeOption->getUuid() == activeOptions[randomIndex]->getUuid()) {
-            ++randomIndex %= 5;
+        std::vector<const Option*> activeOptions = model->getActiveOptions();
+        int nofOptions = activeOptions.size();
+        if (nofOptions >= 1) {
+            srand(time(NULL));
+            int randomIndex = rand() % nofOptions;
+            // Prevent setting the former active option again as active option!
+            if (activeOption->getUuid() == activeOptions[randomIndex]->getUuid()) {
+                ++randomIndex %= nofOptions;
+            }
+            model->setActiveOption(activeOptions[randomIndex]->getUuid());
         }
-        model.setActiveOption(activeOptions[randomIndex]->getUuid());
     }
 }

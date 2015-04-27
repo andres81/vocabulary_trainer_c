@@ -23,25 +23,19 @@
 #include <QWidget>
 #include <QLabel>
 
-class Option;
+#include "option.h"
 
-class WidgetOptionQuestion : public QWidget
+class WidgetVocabularyEntryPresenter : public QWidget
 {
     Q_OBJECT
 
-    Option** options = NULL;
-    int currentOption;
-    
-    QLabel *textLabel = NULL;;
-
+    QLabel *textLabel = NULL;
+    Option entry;
 public:
-    explicit WidgetOptionQuestion(Option* options[5], QWidget *parent = 0);
-    ~WidgetOptionQuestion();
+    explicit WidgetVocabularyEntryPresenter(QWidget *parent = 0);
+    ~WidgetVocabularyEntryPresenter();
 
-    void setOptions(Option* options[5]);
-    std::string setNewOption();
-    void setNewOption(std::string);
-    void updateVisibleOption();
+    void setVocabularyEntry(Option entry);
 };
 
 #endif // GUESSOBJECTWIDGET_H

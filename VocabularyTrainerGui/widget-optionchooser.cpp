@@ -34,46 +34,29 @@ WidgetOptionChooser::WidgetOptionChooser(QWidget* parent)
 
 /**
  * 
- * @param options
- * @param parent
- */
-WidgetOptionChooser::WidgetOptionChooser(Option* options[5], QWidget* parent)
-    : QWidget(parent)
-{
-    setOptions(options);
-}
-
-/**
- * 
  */
 WidgetOptionChooser::~WidgetOptionChooser()
 {
-    delete[] this->options;
 }
 
 /**
  * 
  * @param options
  */
-void WidgetOptionChooser::setOptions(Option* options[5]) {
-    
+void WidgetOptionChooser::setOptions(std::vector<Option> options) {
     if (!signalMapper) {
         signalMapper = new QSignalMapper(this);
         connect(signalMapper, SIGNAL(mapped(QString)), this, SIGNAL(optionChosen(QString)));
     }
-    
-    delete[] this->options;
-    this->options = new Option*[5];
-    for (int i=0;i<5;i++) {
-        this->options[i] = new Option(*options[i]);
-    }
-    
+    this->options = options;
     QVBoxLayout* vBoxLayout = new QVBoxLayout;
-    for (int i=0;i<5;i++) {
-        QPushButton* button = new QPushButton(options[i]->getTitle().c_str());
+    std::vector<Option>::iterator it = options.begin();
+    while (it != options.end()) {
+        QPushButton* button = new QPushButton(it->getTitle().c_str());
         connect(button,  SIGNAL(clicked()),signalMapper, SLOT(map()));
-        signalMapper->setMapping(button, options[i]->getUuid().c_str());
+        signalMapper->setMapping(button, it->getUuid().c_str());
         vBoxLayout->addWidget(button);
+        ++it;
     }
     vBoxLayout->addStretch();
     QHBoxLayout* hBoxLayout = new QHBoxLayout;

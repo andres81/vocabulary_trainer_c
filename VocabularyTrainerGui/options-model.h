@@ -20,13 +20,17 @@
 
 #include <vector>
 
+#include "observer-interface.h"
 #include "option.h"
 
-class OptionsModel {
+class OptionsModel : public SubjectInterface {
     
     std::vector<Option> options;
     std::vector<const Option*> activeOptionsView;
     const Option* activeOptionView = NULL;
+    std::vector<ObserverInterface*> observers;
+    std::string changeAspect;
+    
 public:
     OptionsModel(){};
     OptionsModel(const OptionsModel& orig);
@@ -37,6 +41,10 @@ public:
     void setActiveOptions(std::vector<std::string>);
     std::vector<Option> getOptions();
     void setOptions(std::vector<Option>);
+    
+    virtual void Attach(ObserverInterface*);
+    virtual void Detach(ObserverInterface*);
+    virtual void Notify();
 };
 
 #endif	/* OPTIONSMODEL_H */

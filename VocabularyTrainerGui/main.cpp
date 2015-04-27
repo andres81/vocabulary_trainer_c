@@ -18,9 +18,12 @@
 
 
 #include "widget-vocabularytrainer.h"
+#include "options-model.h"
+#include "option-controller.h"
 #include <QApplication>
 
 #include <iostream>
+#include <vector>
 
 int main(int argc, char *argv[]) {
     // initialize resources, if needed
@@ -39,16 +42,31 @@ int main(int argc, char *argv[]) {
     Option *option4 = new Option("4444", "Option 4");
     Option *option5 = new Option("5555", "Option 5");
 
-    Option* options[5] = {option1,
-                         option2,
-                         option3,
-                         option4,
-                         option5};
-//    WidgetOptionChooser *optionContainer = new WidgetOptionChooser(options, w);
-//    w->setCentralWidget(optionContainer);
+    std::vector<Option> optionVec;
+    optionVec.push_back(*option1);
+    optionVec.push_back(*option2);
+    optionVec.push_back(*option3);
+    optionVec.push_back(*option4);
+    optionVec.push_back(*option5);
     
-    WidgetVocabularyTrainer vocTrainer(options);
+    OptionsModel *model = new OptionsModel;
+    model->setOptions(optionVec);
+    std::vector<std::string> activeOptions;
+    activeOptions.push_back("1111");
+    activeOptions.push_back("2222");
+    activeOptions.push_back("3333");
+    activeOptions.push_back("4444");
+    activeOptions.push_back("5555");
+    model->setActiveOptions(activeOptions);
+    model->setActiveOption("1111");
     
+    OptionController *controller = new OptionController;
+    controller->setModel(model);
+    
+    WidgetVocabularyTrainer vocTrainer(model, controller);
+    
+    model->Notify();
+    std::cout << "after notify" << std::endl;
 //    QObject::connect(optionContainer, SIGNAL(optionChosen(QString)), w, SLOT(optionChosen(QString)));
 
     vocTrainer.show();

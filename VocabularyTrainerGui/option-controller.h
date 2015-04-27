@@ -24,15 +24,14 @@ class OptionsModel;
 
 class OptionController {
     
-    OptionsModel model;
+    OptionsModel *model = NULL;
     
 public:
     OptionController(){};
-    OptionController(OptionsModel model);
+    OptionController(OptionsModel* model);
     OptionController(const OptionController& orig);
     virtual ~OptionController();
-    void setModel(OptionsModel model);
-    OptionsModel getModel();
+    void setModel(OptionsModel *model);
     void makeGuess(std::string uuid);
 };
 

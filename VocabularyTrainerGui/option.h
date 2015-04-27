@@ -28,6 +28,7 @@ class Option
     std::string title;
     
 public:
+    Option(){};
     Option(std::string uuid);
     Option(std::string uuid, std::string title);
     Option(const Option& orig);

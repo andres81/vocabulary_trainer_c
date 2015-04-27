@@ -24,22 +24,19 @@
 
 class OptionsModel {
     
-    std::vector<Option> *options = NULL;
-    const std::vector<Option>* activeOptions;
-    const Option* activeOption;
+    std::vector<Option> options;
+    std::vector<const Option*> activeOptionsView;
+    const Option* activeOptionView = NULL;
 public:
-    OptionsModel();
-    OptionsModel(const std::vector<Option>*);
+    OptionsModel(){};
     OptionsModel(const OptionsModel& orig);
     virtual ~OptionsModel();
-    
     const Option* getActiveOption();
     void setActiveOption(std::string uuid);
-    const std::vector<Option>* getActiveOptions();
+    std::vector<const Option*> getActiveOptions();
     void setActiveOptions(std::vector<std::string>);
-    
-private:
-
+    std::vector<Option> getOptions();
+    void setOptions(std::vector<Option>);
 };
 
 #endif	/* OPTIONSMODEL_H */

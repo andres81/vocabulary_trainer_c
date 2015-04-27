@@ -21,21 +21,17 @@
 
 /**
  * 
- */
-OptionsModel::OptionsModel() {
-}
-
-/**
- * 
  * @param orig
  */
-OptionsModel::OptionsModel(const OptionsModel& orig) {
+OptionsModel::OptionsModel(const OptionsModel& orig) 
+{
 }
 
 /**
  * 
  */
 OptionsModel::~OptionsModel() {
+    
 }
 
 /**
@@ -43,7 +39,7 @@ OptionsModel::~OptionsModel() {
  * @return 
  */
 const Option* OptionsModel::getActiveOption() {
-    return activeOption;
+    return activeOptionView;
 }
 
 /**
@@ -51,11 +47,11 @@ const Option* OptionsModel::getActiveOption() {
  * @param optionUuid
  */
 void OptionsModel::setActiveOption(std::string optionUuid) {
-    std::vector<Option>::iterator it = std::find(options->begin(), options->end(), Option(optionUuid));
-    if (it != options->end()) {
-        activeOption = &(*it);
+    std::vector<Option>::iterator it = std::find(options.begin(), options.end(), Option(optionUuid));
+    if (it != options.end()) {
+        activeOptionView = &(*it);
     } else {
-        activeOption = NULL;
+        activeOptionView = NULL;
     }
 }
 
@@ -63,24 +59,33 @@ void OptionsModel::setActiveOption(std::string optionUuid) {
  * 
  * @return 
  */
-const std::vector<Option>* OptionsModel::getActiveOptions() {
-    return activeOptions;
+std::vector<const Option*> OptionsModel::getActiveOptions() {
+    return activeOptionsView;
 }
 
 /**
  * 
  * @param newActiveOptions
  */
-void OptionsModel::setActiveOptions(std::vector<std::string> newActiveOptions) {
-    // Clear original active options.
-    (const_cast<std::vector<Option>*>(activeOptions))->clear();
-    std::vector<std::string>::iterator it = newActiveOptions.begin();
-    while (it != newActiveOptions.end()) {
-        std::vector<Option>::iterator it2 = std::find(options->begin(), options->end(), Option(*it));
-        if (it2 != options->end()) {
-            (const_cast<std::vector<Option>*>(activeOptions))->push_back(*it2);
+void OptionsModel::setActiveOptions(std::vector<std::string> optionsUuids) {
+    std::vector<const Option*> activeOptions;
+    std::vector<std::string>::iterator uuidsIterator = optionsUuids.begin();
+    while (uuidsIterator != optionsUuids.end()) {
+        std::vector<Option>::iterator optionsIt = std::find(options.begin(), options.end(), Option(*uuidsIterator));
+        if (optionsIt != options.end()) {
+            activeOptions.push_back(&(*optionsIt));
         }
-        ++it;
+        ++uuidsIterator;
     }
+    this->activeOptionsView = activeOptions;
 }
 
+std::vector<Option> OptionsModel::getOptions() {
+    return options;
+}
+
+void OptionsModel::setOptions(std::vector<Option> options) {
+    this->options = options;
+    activeOptionView = NULL;
+    activeOptionsView.clear();
+}

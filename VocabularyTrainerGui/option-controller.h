@@ -18,21 +18,22 @@
 #ifndef OPTIONCONTROLLER_H
 #define	OPTIONCONTROLLER_H
 
-#include <string>
+#include "options-model.h"
 
 class OptionsModel;
 
 class OptionController {
     
-    OptionsModel* model = NULL;
+    OptionsModel model;
     
 public:
-    OptionController();
+    OptionController(){};
+    OptionController(OptionsModel model);
     OptionController(const OptionController& orig);
     virtual ~OptionController();
-    
+    void setModel(OptionsModel model);
+    OptionsModel getModel();
     void makeGuess(std::string uuid);
-
 };
 
 #endif	/* OPTIONCONTROLLER_H */

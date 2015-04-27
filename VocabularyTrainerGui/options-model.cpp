@@ -51,7 +51,7 @@ void OptionsModel::setActiveOption(std::string optionUuid) {
     std::vector<Option>::iterator it = std::find(options.begin(), options.end(), Option(optionUuid));
     if (it != options.end()) {
         activeOptionView = &(*it);
-        changeAspect = "activeOption";
+        state = "activeOption";
         Notify();
     } else {
         activeOptionView = NULL;
@@ -104,7 +104,11 @@ void OptionsModel::Detach(ObserverInterface* o) {
 void OptionsModel::Notify() {
     std::vector<ObserverInterface*>::iterator it = observers.begin();
     while (it != observers.end()) {
-        (*it)->Update(this, changeAspect);
+        (*it)->Update(this);
         ++it;
     }
+}
+
+std::string OptionsModel::GetState() {
+    return state;
 }

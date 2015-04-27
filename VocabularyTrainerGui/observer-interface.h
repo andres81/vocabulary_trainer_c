@@ -15,7 +15,7 @@ class SubjectInterface;
 class ObserverInterface {
 public:
     virtual ~ObserverInterface() {};
-    virtual void Update(SubjectInterface* changedSubject, std::string changeAspect) = 0;
+    virtual void Update(SubjectInterface* changedSubject) = 0;
 protected:
     ObserverInterface() {};
 };

@@ -35,14 +35,13 @@ signals:
         void optionChosen(QString optionUuid);
 
 private:
-    std::vector<Option> options;
     QSignalMapper *signalMapper = NULL;
 
 public:
     explicit WidgetOptionChooser(QWidget* parent = 0);
     ~WidgetOptionChooser();
 
-    void setOptions(std::vector<Option>);
+    void setOptions(std::vector<const Option*>);
 };
 
 #endif // WIDGETOPTIONCHOOSER_H

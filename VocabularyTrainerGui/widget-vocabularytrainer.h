@@ -47,7 +47,7 @@ private slots:
 public:
     WidgetVocabularyTrainer(OptionsModel* model, OptionController* controller, QWidget* parent = 0);
     ~WidgetVocabularyTrainer();
-    virtual void Update(SubjectInterface* changedSubject, std::string changeAspect);
+    virtual void Update(SubjectInterface* changedSubject);
     
 private:
     void updateActiveOption();

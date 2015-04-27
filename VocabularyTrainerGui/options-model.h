@@ -29,7 +29,7 @@ class OptionsModel : public SubjectInterface {
     std::vector<const Option*> activeOptionsView;
     const Option* activeOptionView = NULL;
     std::vector<ObserverInterface*> observers;
-    std::string changeAspect;
+    std::string state;
     
 public:
     OptionsModel(){};
@@ -41,11 +41,10 @@ public:
     void setActiveOptions(std::vector<std::string>);
     std::vector<Option> getOptions();
     void setOptions(std::vector<Option>);
-    
+    std::string GetState();
     virtual void Attach(ObserverInterface*);
     virtual void Detach(ObserverInterface*);
     virtual void Notify();
 };
 
 #endif	/* OPTIONSMODEL_H */
-

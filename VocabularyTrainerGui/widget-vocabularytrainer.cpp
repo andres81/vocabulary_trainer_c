@@ -58,11 +58,12 @@ void WidgetVocabularyTrainer::optionChosen(QString optionUuid) {
  * 
  * @param changedSubject
  */
-void WidgetVocabularyTrainer::Update(SubjectInterface* changedSubject, std::string aspect) {
+void WidgetVocabularyTrainer::Update(SubjectInterface* changedSubject) {
     if (changedSubject == model) {
-        if (aspect == "activeOption") {
+        std::string state = model->GetState();
+        if (state == "activeOption") {
             updateActiveOption();
-        } else if (aspect == "activeOptions") {
+        } else if (state == "activeOptions") {
             updateActiveOptions();
         }
    } 
@@ -72,20 +73,12 @@ void WidgetVocabularyTrainer::Update(SubjectInterface* changedSubject, std::stri
  * 
  */
 void WidgetVocabularyTrainer::updateActiveOptions() {
-    std::vector<const Option*> activeOptions = model->getActiveOptions();
-    std::vector<const Option*>::iterator it = activeOptions.begin();
-    std::vector<Option> options;
-    while (it != activeOptions.end()) {
-        options.push_back(Option(**it));
-        ++it;
-    }
-    optionChooser->setOptions(options);
+    optionChooser->setOptions(model->getActiveOptions());
 }
 
 /**
  * 
  */
 void WidgetVocabularyTrainer::updateActiveOption() {
-    Option option = *model->getActiveOption();
-    optionQuestion->setVocabularyEntry(option);
+    optionQuestion->setVocabularyEntry(*(model->getActiveOption()));
 }

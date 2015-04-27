@@ -43,18 +43,17 @@ WidgetOptionChooser::~WidgetOptionChooser()
  * 
  * @param options
  */
-void WidgetOptionChooser::setOptions(std::vector<Option> options) {
+void WidgetOptionChooser::setOptions(std::vector<const Option*> options) {
     if (!signalMapper) {
         signalMapper = new QSignalMapper(this);
         connect(signalMapper, SIGNAL(mapped(QString)), this, SIGNAL(optionChosen(QString)));
     }
-    this->options = options;
     QVBoxLayout* vBoxLayout = new QVBoxLayout;
-    std::vector<Option>::iterator it = options.begin();
+    std::vector<const Option*>::iterator it = options.begin();
     while (it != options.end()) {
-        QPushButton* button = new QPushButton(it->getTitle().c_str());
+        QPushButton* button = new QPushButton((*it)->getTitle().c_str());
         connect(button,  SIGNAL(clicked()),signalMapper, SLOT(map()));
-        signalMapper->setMapping(button, it->getUuid().c_str());
+        signalMapper->setMapping(button, (*it)->getUuid().c_str());
         vBoxLayout->addWidget(button);
         ++it;
     }

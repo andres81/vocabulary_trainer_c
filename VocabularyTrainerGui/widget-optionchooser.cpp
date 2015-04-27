@@ -63,5 +63,6 @@ void WidgetOptionChooser::setOptions(std::vector<Option> options) {
     hBoxLayout->addStretch();
     hBoxLayout->addLayout(vBoxLayout);
     hBoxLayout->addStretch();
+    if (layout() != 0) delete layout();
     setLayout(hBoxLayout);
 }

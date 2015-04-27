@@ -65,9 +65,6 @@ int main(int argc, char *argv[]) {
     
     WidgetVocabularyTrainer vocTrainer(model, controller);
     
-    model->Notify();
-    std::cout << "after notify" << std::endl;
-//    QObject::connect(optionContainer, SIGNAL(optionChosen(QString)), w, SLOT(optionChosen(QString)));
 
     vocTrainer.show();
     

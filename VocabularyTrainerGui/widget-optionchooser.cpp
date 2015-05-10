@@ -43,13 +43,13 @@ WidgetOptionChooser::~WidgetOptionChooser()
  * 
  * @param options
  */
-void WidgetOptionChooser::setOptions(std::vector<const Option*> options) {
+void WidgetOptionChooser::setOptions(std::vector<const VocabularyEntry*> options) {
     if (!signalMapper) {
         signalMapper = new QSignalMapper(this);
         connect(signalMapper, SIGNAL(mapped(QString)), this, SIGNAL(optionChosen(QString)));
     }
     QVBoxLayout* vBoxLayout = new QVBoxLayout;
-    std::vector<const Option*>::iterator it = options.begin();
+    std::vector<const VocabularyEntry*>::iterator it = options.begin();
     while (it != options.end()) {
         QPushButton* button = new QPushButton((*it)->getTitle().c_str());
         connect(button,  SIGNAL(clicked()),signalMapper, SLOT(map()));

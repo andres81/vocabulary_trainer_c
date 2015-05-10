@@ -18,8 +18,8 @@
 
 
 #include "widget-vocabularytrainer.h"
-#include "options-model.h"
-#include "option-controller.h"
+#include "vocabularyexercisemodel.h"
+#include "vocabularyexercisecontroller.h"
 #include <QApplication>
 
 #include <iostream>
@@ -36,20 +36,20 @@ int main(int argc, char *argv[]) {
 //    MainWindow *w = new MainWindow;
 
 
-    Option *option1 = new Option("1111", "Ik heb vandaag vijf appels moeten kopen!");
-    Option *option2 = new Option("2222", "Option 2");
-    Option *option3 = new Option("3333", "Option 3");
-    Option *option4 = new Option("4444", "Option 4");
-    Option *option5 = new Option("5555", "Option 5");
+    VocabularyEntry *option1 = new VocabularyEntry("1111", "Ik heb vandaag vijf appels moeten kopen!");
+    VocabularyEntry *option2 = new VocabularyEntry("2222", "Option 2");
+    VocabularyEntry *option3 = new VocabularyEntry("3333", "Option 3");
+    VocabularyEntry *option4 = new VocabularyEntry("4444", "Option 4");
+    VocabularyEntry *option5 = new VocabularyEntry("5555", "Option 5");
 
-    std::vector<Option> optionVec;
+    std::vector<VocabularyEntry> optionVec;
     optionVec.push_back(*option1);
     optionVec.push_back(*option2);
     optionVec.push_back(*option3);
     optionVec.push_back(*option4);
     optionVec.push_back(*option5);
     
-    OptionsModel *model = new OptionsModel;
+    VocabularyExerciseModel *model = new VocabularyExerciseModel;
     model->setOptions(optionVec);
     std::vector<std::string> activeOptions;
     activeOptions.push_back("1111");
@@ -60,12 +60,8 @@ int main(int argc, char *argv[]) {
     model->setActiveOptions(activeOptions);
     model->setActiveOption("1111");
     
-    OptionController *controller = new OptionController;
-    controller->setModel(model);
+    WidgetVocabularyTrainer vocTrainer(model);
     
-    WidgetVocabularyTrainer vocTrainer(model, controller);
-    
-
     vocTrainer.show();
     
     return app.exec();

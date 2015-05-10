@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "options-model.h"
+#include "vocabularyexercisemodel.h"
 
 #include <algorithm>
 
@@ -23,7 +23,7 @@
  * 
  * @param orig
  */
-OptionsModel::OptionsModel(const OptionsModel& orig) 
+VocabularyExerciseModel::VocabularyExerciseModel(const VocabularyExerciseModel& orig) 
 : options(orig.options)
 {
 }
@@ -31,7 +31,7 @@ OptionsModel::OptionsModel(const OptionsModel& orig)
 /**
  * 
  */
-OptionsModel::~OptionsModel() {
+VocabularyExerciseModel::~VocabularyExerciseModel() {
  //TODO when this Subject is destroyed, notify all observers of being destroyed!!!   
 }
 
@@ -39,7 +39,7 @@ OptionsModel::~OptionsModel() {
  * 
  * @return 
  */
-const Option* OptionsModel::getActiveOption() {
+const VocabularyEntry* VocabularyExerciseModel::getActiveOption() {
     return activeOptionView;
 }
 
@@ -47,8 +47,8 @@ const Option* OptionsModel::getActiveOption() {
  * 
  * @param optionUuid
  */
-void OptionsModel::setActiveOption(std::string optionUuid) {
-    std::vector<Option>::iterator it = std::find(options.begin(), options.end(), Option(optionUuid));
+void VocabularyExerciseModel::setActiveOption(std::string optionUuid) {
+    std::vector<VocabularyEntry>::iterator it = std::find(options.begin(), options.end(), VocabularyEntry(optionUuid));
     if (it != options.end()) {
         activeOptionView = &(*it);
         state = "activeOption";
@@ -62,7 +62,7 @@ void OptionsModel::setActiveOption(std::string optionUuid) {
  * 
  * @return 
  */
-std::vector<const Option*> OptionsModel::getActiveOptions() {
+std::vector<const VocabularyEntry*> VocabularyExerciseModel::getActiveOptions() {
     return activeOptionsView;
 }
 
@@ -70,11 +70,11 @@ std::vector<const Option*> OptionsModel::getActiveOptions() {
  * 
  * @param newActiveOptions
  */
-void OptionsModel::setActiveOptions(std::vector<std::string> optionsUuids) {
-    std::vector<const Option*> activeOptions;
+void VocabularyExerciseModel::setActiveOptions(std::vector<std::string> optionsUuids) {
+    std::vector<const VocabularyEntry*> activeOptions;
     std::vector<std::string>::iterator uuidsIterator = optionsUuids.begin();
     while (uuidsIterator != optionsUuids.end()) {
-        std::vector<Option>::iterator optionsIt = std::find(options.begin(), options.end(), Option(*uuidsIterator));
+        std::vector<VocabularyEntry>::iterator optionsIt = std::find(options.begin(), options.end(), VocabularyEntry(*uuidsIterator));
         if (optionsIt != options.end()) {
             activeOptions.push_back(&(*optionsIt));
         }
@@ -83,25 +83,25 @@ void OptionsModel::setActiveOptions(std::vector<std::string> optionsUuids) {
     this->activeOptionsView = activeOptions;
 }
 
-std::vector<Option> OptionsModel::getOptions() {
+std::vector<VocabularyEntry> VocabularyExerciseModel::getOptions() {
     return options;
 }
 
-void OptionsModel::setOptions(std::vector<Option> options) {
+void VocabularyExerciseModel::setOptions(std::vector<VocabularyEntry> options) {
     this->options = options;
     activeOptionView = NULL;
     activeOptionsView.clear();
 }
 
-void OptionsModel::Attach(ObserverInterface* o) {
+void VocabularyExerciseModel::Attach(ObserverInterface* o) {
     observers.push_back(o);
 }
 
-void OptionsModel::Detach(ObserverInterface* o) {
+void VocabularyExerciseModel::Detach(ObserverInterface* o) {
     observers.erase(std::remove(observers.begin(), observers.end(), o), observers.end());
 }
 
-void OptionsModel::Notify() {
+void VocabularyExerciseModel::Notify() {
     std::vector<ObserverInterface*>::iterator it = observers.begin();
     while (it != observers.end()) {
         (*it)->Update(this);
@@ -109,6 +109,6 @@ void OptionsModel::Notify() {
     }
 }
 
-std::string OptionsModel::GetState() {
+std::string VocabularyExerciseModel::GetState() {
     return state;
 }

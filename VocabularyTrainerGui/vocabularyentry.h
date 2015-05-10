@@ -17,63 +17,28 @@
 
 
 
-#include "option.h"
+#ifndef OPTION_H
+#define OPTION_H
 
-#include <iostream>
+#include <string>
 
-/**
- */
-Option::Option(std::string uuid)
-    : uuid(uuid)
+class VocabularyEntry
 {
-}
+    std::string uuid;
+    std::string title;
+    
+public:
+    VocabularyEntry(){};
+    VocabularyEntry(std::string uuid);
+    VocabularyEntry(std::string uuid, std::string title);
+    VocabularyEntry(const VocabularyEntry& orig);
+    ~VocabularyEntry();
+    std::string getUuid() const;
+    std::string getTitle() const;
+    void setTitle(std::string);
+};
 
-/**
- */
-Option::Option(std::string uuid, std::string title)
-    :uuid(uuid),title(title)
-{
-}
+inline bool operator==(const VocabularyEntry& lhs, const VocabularyEntry& rhs){ return lhs.getUuid() == rhs.getUuid(); }
+inline bool operator!=(const VocabularyEntry& lhs, const VocabularyEntry& rhs){return !(lhs == rhs);}
 
-/**
- * 
- * @param orig
- */
-Option::Option(const Option& orig)
-    : uuid(orig.uuid), title(orig.title)
-{
-    this->uuid = orig.uuid;
-    this->title = orig.title;
-}
-
-/**
- * 
- */
-Option::~Option()
-{
-}
-
-/**
- * 
- * @return 
- */
-std::string Option::getUuid() const {
-    return uuid;
-}
-
-/**
- * 
- * @param title
- */
-void Option::setTitle(std::string title)
-{
-    this->title = title;
-}
-
-/**
- * 
- * @return 
- */
-std::string Option::getTitle () const {
-    return title;
-}
+#endif // OPTION_H

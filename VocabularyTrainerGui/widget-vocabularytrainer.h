@@ -24,10 +24,10 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "option.h"
+#include "vocabularyentry.h"
 #include "widget-optionchooser.h"
 #include "WidgetVocabularyEntryPresenter.h"
-#include "option-controller.h"
+#include "vocabularyexercisecontroller.h"
 #include "observer-interface.h"
 
 
@@ -38,14 +38,14 @@ class WidgetVocabularyTrainer : public QWidget, ObserverInterface
     WidgetOptionChooser *optionChooser = NULL;
     WidgetVocabularyEntryPresenter *optionQuestion = NULL;
     std::string currentOptionUuid;
-    OptionController *controller = NULL;
-    OptionsModel *model = NULL;
+    VocabularyExerciseController *controller = NULL;
+    VocabularyExerciseModel *model = NULL;
     
 private slots:
     void optionChosen(QString);
     
 public:
-    WidgetVocabularyTrainer(OptionsModel* model, OptionController* controller, QWidget* parent = 0);
+    WidgetVocabularyTrainer(VocabularyExerciseModel* model, QWidget* parent = 0);
     ~WidgetVocabularyTrainer();
     virtual void Update(SubjectInterface* changedSubject);
     

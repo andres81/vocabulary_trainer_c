@@ -15,34 +15,25 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "option-controller.h"
+#include "vocabularyexercisecontroller.h"
 
 #include <vector>
 #include <cstdlib>
 #include <ctime>
 
-OptionController::OptionController(OptionsModel* model)
+VocabularyExerciseController::VocabularyExerciseController(VocabularyExerciseModel* model)
 : model(model)
 {
 }
 
-OptionController::OptionController(const OptionController& orig) 
-: model(orig.model)
-{
+VocabularyExerciseController::~VocabularyExerciseController() {
 }
 
-OptionController::~OptionController() {
-}
-
-void OptionController::setModel(OptionsModel* model) {
-    this->model = model;
-}
-
-void OptionController::makeGuess(std::string uuid) {
-    const Option* activeOption = model->getActiveOption();
+void VocabularyExerciseController::makeGuess(std::string uuid) {
+    const VocabularyEntry* activeOption = model->getActiveOption();
     if (!activeOption) return;
     if (activeOption->getUuid() == uuid) {
-        std::vector<const Option*> activeOptions = model->getActiveOptions();
+        std::vector<const VocabularyEntry*> activeOptions = model->getActiveOptions();
         int nofOptions = activeOptions.size();
         if (nofOptions >= 1) {
             srand(time(NULL));

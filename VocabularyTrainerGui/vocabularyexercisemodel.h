@@ -21,26 +21,26 @@
 #include <vector>
 
 #include "observer-interface.h"
-#include "option.h"
+#include "vocabularyentry.h"
 
-class OptionsModel : public SubjectInterface {
+class VocabularyExerciseModel : public SubjectInterface {
     
-    std::vector<Option> options;
-    std::vector<const Option*> activeOptionsView;
-    const Option* activeOptionView = NULL;
+    std::vector<VocabularyEntry> options;
+    std::vector<const VocabularyEntry*> activeOptionsView;
+    const VocabularyEntry* activeOptionView = NULL;
     std::vector<ObserverInterface*> observers;
     std::string state;
     
 public:
-    OptionsModel(){};
-    OptionsModel(const OptionsModel& orig);
-    virtual ~OptionsModel();
-    const Option* getActiveOption();
+    VocabularyExerciseModel(){};
+    VocabularyExerciseModel(const VocabularyExerciseModel& orig);
+    virtual ~VocabularyExerciseModel();
+    const VocabularyEntry* getActiveOption();
     void setActiveOption(std::string uuid);
-    std::vector<const Option*> getActiveOptions();
+    std::vector<const VocabularyEntry*> getActiveOptions();
     void setActiveOptions(std::vector<std::string>);
-    std::vector<Option> getOptions();
-    void setOptions(std::vector<Option>);
+    std::vector<VocabularyEntry> getOptions();
+    void setOptions(std::vector<VocabularyEntry>);
     std::string GetState();
     virtual void Attach(ObserverInterface*);
     virtual void Detach(ObserverInterface*);

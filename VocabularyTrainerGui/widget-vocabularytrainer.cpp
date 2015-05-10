@@ -16,14 +16,14 @@
  */
 
 #include "widget-vocabularytrainer.h"
-#include "options-model.h"
-#include "option-controller.h"
+#include "vocabularyexercisemodel.h"
+#include "vocabularyexercisecontroller.h"
 
-WidgetVocabularyTrainer::WidgetVocabularyTrainer(OptionsModel* model, OptionController* controller, QWidget *parent)
+WidgetVocabularyTrainer::WidgetVocabularyTrainer(VocabularyExerciseModel* model, QWidget *parent)
     : QWidget(parent)
 {
     this->model = model;
-    this->controller = controller;
+    this->controller = new VocabularyExerciseController(model);
     optionChooser = new WidgetOptionChooser(this);
     optionQuestion = new WidgetVocabularyEntryPresenter(this);
     updateActiveOption();
@@ -42,6 +42,7 @@ WidgetVocabularyTrainer::WidgetVocabularyTrainer(OptionsModel* model, OptionCont
  */
 WidgetVocabularyTrainer::~WidgetVocabularyTrainer()
 {
+    delete controller;
 }
 
 /**

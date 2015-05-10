@@ -15,24 +15,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OPTIONCONTROLLER_H
-#define	OPTIONCONTROLLER_H
+#ifndef VOCABULARYENTRYPAIR_H
+#define	VOCABULARYENTRYPAIR_H
 
-#include "options-model.h"
+#include <string>
+#include "vocabularyentry.h"
 
-class OptionsModel;
-
-class OptionController {
+class VocabularyEntryPair {
     
-    OptionsModel *model = NULL;
+    std::string uuid;
+    const VocabularyEntry entryOne;
+    const VocabularyEntry entryTwo;
     
 public:
-    OptionController(){};
-    OptionController(OptionsModel* model);
-    OptionController(const OptionController& orig);
-    virtual ~OptionController();
-    void setModel(OptionsModel *model);
-    void makeGuess(std::string uuid);
+    VocabularyEntryPair(std::string uuid, const VocabularyEntry entryOne, const VocabularyEntry entryTwo);
+    VocabularyEntryPair(const VocabularyEntryPair& orig){};
+    virtual ~VocabularyEntryPair(){};
+    
+    std::string getUuid();
+    const VocabularyEntry* getEntryOne() const;
+    const VocabularyEntry* getEntryTwo() const;
+    
+private:
+
 };
 
-#endif	/* OPTIONCONTROLLER_H */
+#endif	/* VOCABULARYENTRYPAIR_H */
+

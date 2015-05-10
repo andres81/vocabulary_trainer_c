@@ -17,37 +17,63 @@
 
 
 
-#include <stdlib.h>     /* srand, rand */
-#include <time.h>       /* time */
-
-#include "WidgetVocabularyEntryPresenter.h"
 #include "vocabularyentry.h"
 
-#include <QHBoxLayout>
+#include <iostream>
+
+/**
+ */
+VocabularyEntry::VocabularyEntry(std::string uuid)
+    : uuid(uuid)
+{
+}
+
+/**
+ */
+VocabularyEntry::VocabularyEntry(std::string uuid, std::string title)
+    :uuid(uuid),title(title)
+{
+}
 
 /**
  * 
- * @param options
- * @param parent
+ * @param orig
  */
-WidgetVocabularyEntryPresenter::WidgetVocabularyEntryPresenter(QWidget* parent) : QWidget(parent)
+VocabularyEntry::VocabularyEntry(const VocabularyEntry& orig)
+    : uuid(orig.uuid), title(orig.title)
 {
-    textLabel = new QLabel();
-    QHBoxLayout* hBoxLayout = new QHBoxLayout();
-    hBoxLayout->addStretch();
-    hBoxLayout->addWidget(textLabel);
-    hBoxLayout->addStretch();
-    setLayout(hBoxLayout);
+    this->uuid = orig.uuid;
+    this->title = orig.title;
 }
 
 /**
  * 
  */
-WidgetVocabularyEntryPresenter::~WidgetVocabularyEntryPresenter()
+VocabularyEntry::~VocabularyEntry()
 {
 }
 
-void WidgetVocabularyEntryPresenter::setVocabularyEntry(VocabularyEntry entry) {
-    this->entry = entry;
-    textLabel->setText(entry.getTitle().c_str());
+/**
+ * 
+ * @return 
+ */
+std::string VocabularyEntry::getUuid() const {
+    return uuid;
+}
+
+/**
+ * 
+ * @param title
+ */
+void VocabularyEntry::setTitle(std::string title)
+{
+    this->title = title;
+}
+
+/**
+ * 
+ * @return 
+ */
+std::string VocabularyEntry::getTitle () const {
+    return title;
 }

@@ -24,7 +24,7 @@
 #include <QPushButton>
 #include <QSignalMapper>
 
-#include "option.h"
+#include "vocabularyentry.h"
 
 class WidgetOptionChooser : public QWidget
 {
@@ -41,7 +41,7 @@ public:
     explicit WidgetOptionChooser(QWidget* parent = 0);
     ~WidgetOptionChooser();
 
-    void setOptions(std::vector<const Option*>);
+    void setOptions(std::vector<const VocabularyEntry*>);
 };
 
 #endif // WIDGETOPTIONCHOOSER_H

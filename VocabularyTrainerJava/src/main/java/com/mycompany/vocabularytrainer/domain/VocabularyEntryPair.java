@@ -21,25 +21,17 @@ public class VocabularyEntryPair {
     /**
      * 
      */
-    private Representative entryOne = null;
+    private final Representative entryOne;
     
     /**
      * 
      */
-    private Representative entryTwo = null;
+    private final Representative entryTwo;
     
     /**
      * 
      */
-    private UUID uuid = null;
-    
-    /**
-     * 
-     * @param uuid
-     */
-    public VocabularyEntryPair(UUID uuid) {
-        this.uuid = new UUID(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits());
-    }
+    private final UUID uuid;
     
     /**
      * 
@@ -48,17 +40,9 @@ public class VocabularyEntryPair {
      * @param second
      */
     public VocabularyEntryPair(UUID uuid, Representative first, Representative second) {
-        this(uuid);
+        this.uuid = uuid;
         entryOne = first;
         entryTwo = second;
-    }
-    
-    /**
-     * 
-     * @param first
-     */
-    public void setFirst(Representative first) {
-        entryOne = first;
     }
     
     /**
@@ -71,28 +55,10 @@ public class VocabularyEntryPair {
     
     /**
      * 
-     * @param second 
-     */
-    public void setSecond(Representative second) {
-        entryTwo = second;
-    }
-    
-    /**
-     * 
      * @return 
      */
     public Representative getSecond() {
         return entryTwo;
-    }
-    
-    /**
-     * 
-     * @param first
-     * @param second 
-     */
-    public void setEntries(Representative first, Representative second) {
-        entryOne = first;
-        entryTwo = second;
     }
     
     /**

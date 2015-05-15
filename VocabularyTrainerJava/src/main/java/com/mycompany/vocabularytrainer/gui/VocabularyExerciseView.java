@@ -75,6 +75,7 @@ public class VocabularyExerciseView extends JPanel implements Observer, Represen
         if (controller != null) {
             controller.setModel(model);
         }
+        model.addObserver(this);
         updateVocabularyEntryPairs();
     }
     

@@ -135,23 +135,25 @@ public class VocabularyExerciseModel extends Observable {
 
     /**
      * 
-     * @param pairs 
+     * @param activePairUuids 
      */
-    public void setActivePairs(List<UUID> pairs) {
-        if (pairs == null ||
-            pairs.size() < 1) {
+    public void setActivePairs(List<UUID> activePairUuids) {
+        if (activePairUuids == null ||
+            activePairUuids.size() < 1) {
             return;
         }
         if (activePairs == null) {
             activePairs = new ArrayList<>();
         }
         boolean isActiveQueryPairSet = false;
-        for (UUID uuid : pairs) {
+        for (UUID uuid : activePairUuids) {
             VocabularyEntryPair pair = this.pairs.get(uuid);
-            activePairs.add(pair);
-            if (!isActiveQueryPairSet) {
-                setActiveQueryPair(uuid,false);
-                isActiveQueryPairSet = true;
+            if (pair != null) {
+                activePairs.add(pair);
+                if (!isActiveQueryPairSet) {
+                    setActiveQueryPair(uuid,false);
+                    isActiveQueryPairSet = true;
+                }
             }
         }
         setActiveOptions();

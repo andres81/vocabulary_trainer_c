@@ -5,13 +5,16 @@
  */
 package com.mycompany.vocabularytrainer.domain;
 
-import com.mycompany.vocabularytrainer.gui.RepresentativesView;
 import com.mycompany.vocabularytrainer.gui.RepresentativesViewCallback;
 import com.mycompany.vocabularytrainer.gui.VocabularyExerciseView;
+import com.mycompany.vocabularytrainer.gui.VocabularyPresenterListCellRenderer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,64 +29,66 @@ public class Main implements RepresentativesViewCallback {
     
     public static void main(String[] args) {
         
-        logger.info("Testing this logging");
-        
         JFrame frame = new JFrame();
         VocabularyExerciseView guiOptions = new VocabularyExerciseView();
+//        frame.add(guiOptions);
         
-//        RepresentativesView optionsView = new RepresentativesView();
-//        optionsView.setRepresentatives(null);
-//        optionsView.setRepresentativesCallback(new Main());
-        
-        frame.add(guiOptions);
-        
-//        List<Representative> reps = new ArrayList<>();
-//        reps.add(new DefaultRepresentative(new UUID(1,2), "button one", null));
-//        reps.add(new DefaultRepresentative(new UUID(3,4), "button two", null));
-//        reps.add(new DefaultRepresentative(new UUID(5,6), "button three", null));
-//        
         VocabularyExerciseModel model = new VocabularyExerciseModel();
-        model.addObserver(guiOptions);
-        List<VocabularyEntryPair> pairs = new ArrayList<>();
+        model.setVocabularyEntryPairs(getRepresentatives());
+        model.setActivePairs(getActiveUuids());
+        guiOptions.setModel(model);
+        guiOptions.setController(new VocabularyExerciseControllerDefault());
         
-        VocabularyEntryPair pair = new VocabularyEntryPair(new UUID(1,2));
-        pair.setFirst(new DefaultRepresentative(new UUID(111,222), "button one", null));
-        pair.setSecond(new DefaultRepresentative(new UUID(333,444), "button un", null));
-        pairs.add(pair);
-        pair = new VocabularyEntryPair(new UUID(3,4));
-        pair.setFirst(new DefaultRepresentative(new UUID(11,22), "button two", null));
-        pair.setSecond(new DefaultRepresentative(new UUID(33,44), "button deux", null));
-        pairs.add(pair);
-        pair = new VocabularyEntryPair(new UUID(5,6));
-        pair.setFirst(new DefaultRepresentative(new UUID(1111,2222), "button three", null));
-        pair.setSecond(new DefaultRepresentative(new UUID(3333,4444), "button trois", null));
-        pairs.add(pair);
-        model.setVocabularyEntryPairs(pairs);
+        
+        
+        DefaultListModel<Representative> listModel = new DefaultListModel<>();
+        JList<Representative> list = new JList<>(listModel);
+        list.setCellRenderer(new VocabularyPresenterListCellRenderer());
+        listModel.addElement(new DefaultRepresentative(new UUID(111,222), "one", null));
+        listModel.addElement(new DefaultRepresentative(new UUID(211,222), "two", null));
+        listModel.addElement(new DefaultRepresentative(new UUID(311,222), "three", null));
+        
+        frame.add(new JScrollPane(list));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public static List<UUID> getActiveUuids() {
         List<UUID> activeUuids = new ArrayList<>();
         activeUuids.add(new UUID(1,2));
         activeUuids.add(new UUID(3,4));
         activeUuids.add(new UUID(5,6));
-        model.setActivePairs(activeUuids);
-        guiOptions.setModel(model);
         
-        guiOptions.setController(new VocabularyExerciseControllerDefault());
-        
-//        VocabularyEntryPair entry1 = new VocabularyEntryPair(new UUID(100, 200), "button1");
-//        VocabularyEntryPair entry2 = new VocabularyEntryPair(new UUID(200, 100), "button2");
-//        List<VocabularyEntryPair> options = new ArrayList<>();
-//        options.add(entry1);
-//        options.add(entry2);
-//        guiOptions.setOptions(options);
-//        
-//        frame.add(guiOptions);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-//        
-//        guiOptions.setOptions(options);
+        return activeUuids;
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
+    public static List<VocabularyEntryPair> getRepresentatives() {
+        List<VocabularyEntryPair> pairs = new ArrayList<>();
+        
+        VocabularyEntryPair pair = new VocabularyEntryPair(new UUID(1,2),
+            new DefaultRepresentative(new UUID(111,222), "one", null),
+            new DefaultRepresentative(new UUID(333,444), "un", null));
+        pairs.add(pair);
+        pair = new VocabularyEntryPair(new UUID(3,4),
+            new DefaultRepresentative(new UUID(11,22), "two", null),
+            new DefaultRepresentative(new UUID(33,44), "deux", null));
+        pairs.add(pair);
+        pair = new VocabularyEntryPair(new UUID(5,6),
+            new DefaultRepresentative(new UUID(1,5), "three", null),
+            new DefaultRepresentative(new UUID(2,6), "trois", null));
+        pairs.add(pair);
+        return pairs;
+    }
+    
     @Override
     public void representativeClicked(UUID uuid) {
         logger.info("uuid received: " + uuid.toString());

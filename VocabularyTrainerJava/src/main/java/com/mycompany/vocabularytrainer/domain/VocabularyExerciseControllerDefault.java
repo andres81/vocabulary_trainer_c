@@ -35,7 +35,6 @@ public class VocabularyExerciseControllerDefault implements VocabularyExerciseCo
             if (model.getActiveOption().getUuid() == uuid) {
                 List<VocabularyEntryPair> activePairs = model.getActivePairs();
                 activePairs.remove(model.getActiveQueryPair());
-                logger.info("size: " + activePairs.size());
                 Random r = new Random();
                 int newIndex = r.nextInt(activePairs.size());
                 model.setActiveQueryPair(activePairs.get(newIndex).getUuid());

@@ -32,13 +32,23 @@ public class VocabularyExerciseModel extends Observable {
     /**
      * 
      */
+    private List<VocabularyEntryPair> activePairs = null;
+            
+    /**
+     * 
+     */
     private Representative activeQuery = null;
     
     /**
      * 
      */
     private Representative activeOption = null;
-    
+
+    /**
+     * 
+     */
+    private VocabularyEntryPair activeQueryPair = null;
+            
     /**
      * 
      */
@@ -62,19 +72,18 @@ public class VocabularyExerciseModel extends Observable {
     }
     
     /**
-     * 
-     * @return 
-     */
-    public Direction getDirection() {
-        return direction;
-    }
-    
-    /**
      * s
      * @param direction 
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
+        setActiveOptions();
+        if (activeOptions != null &&
+            activeOptions.size() > 0) {
+            setActiveQueryPair(activeOptions.get(0).getUuid());
+        }
+        setChanged();
+        notifyObservers();
     }
     
     /**
@@ -118,34 +127,90 @@ public class VocabularyExerciseModel extends Observable {
     
     /**
      * 
+     * @return 
+     */
+    public List<VocabularyEntryPair> getActivePairs() {
+        return new ArrayList<>(activePairs);
+    }
+
+    /**
+     * 
      * @param pairs 
      */
     public void setActivePairs(List<UUID> pairs) {
+        if (pairs == null ||
+            pairs.size() < 1) {
+            return;
+        }
+        if (activePairs == null) {
+            activePairs = new ArrayList<>();
+        }
+        boolean isActiveQueryPairSet = false;
+        for (UUID uuid : pairs) {
+            VocabularyEntryPair pair = this.pairs.get(uuid);
+            activePairs.add(pair);
+            if (!isActiveQueryPairSet) {
+                setActiveQueryPair(uuid,false);
+                isActiveQueryPairSet = true;
+            }
+        }
+        setActiveOptions();
+        setChanged();
+        notifyObservers();
+    }
+    
+    /**
+     * 
+     */
+    private void setActiveOptions() {
         if (activeOptions == null) {
             activeOptions = new ArrayList<>();
         }
-        boolean activeQuerySet = false;
-        for (UUID uuid : pairs) {
-            VocabularyEntryPair pair = this.pairs.get(uuid);
-            if (pair != null) {
-                if (direction == Direction.ONETOONE ||
-                    direction == Direction.TWOTOONE) {
-                    activeOptions.add(pair.getFirst());
-                } else {
-                    activeOptions.add(pair.getSecond());
-                }
-                if (!activeQuerySet) {
-                    if (direction == Direction.ONETOONE ||
-                        direction == Direction.ONETOTWO) {
-                        activeQuery = pair.getFirst();
-                        activeOption = pair.getSecond();
-                    } else {
-                        activeQuery = pair.getSecond();
-                        activeOption = pair.getFirst();
-                    }
-                    activeQuerySet = true;
-                }
+        for (VocabularyEntryPair pair : activePairs) {
+            if (direction == Direction.ONETOONE ||
+                direction == Direction.TWOTOONE) {
+                activeOptions.add(pair.getFirst());
+            } else {
+                activeOptions.add(pair.getSecond());
             }
         }
+    }
+    
+    /**
+     * 
+     * @param uuid 
+     */
+    public void setActiveQueryPair(UUID uuid) {
+        setActiveQueryPair(uuid, true);
+    }
+    
+    /**
+     * 
+     * @param uuid 
+     */
+    private void setActiveQueryPair(UUID uuid, boolean updateObservers) {
+        VocabularyEntryPair pair = pairs.get(uuid);
+        if (pair == null) return; // No pair found with given uuid!
+        activeQueryPair = pair;
+        if (direction == Direction.ONETOONE ||
+            direction == Direction.ONETOTWO) {
+            activeQuery = pair.getFirst();
+            activeOption = pair.getSecond();
+        } else {
+            activeQuery = pair.getSecond();
+            activeOption = pair.getFirst();
+        }
+        if (updateObservers) {
+            setChanged();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public VocabularyEntryPair getActiveQueryPair() {
+        return activeQueryPair;
     }
 }

@@ -5,6 +5,8 @@
  */
 package com.mycompany.vocabularytrainer.domain;
 
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -29,8 +31,15 @@ public class VocabularyExerciseControllerDefault implements VocabularyExerciseCo
      */
     @Override
     public void doGuess(UUID uuid) {
-        if (model == null) {
-            
+        if (model != null) {
+            if (model.getActiveOption().getUuid() == uuid) {
+                List<VocabularyEntryPair> activePairs = model.getActivePairs();
+                activePairs.remove(model.getActiveQueryPair());
+                logger.info("size: " + activePairs.size());
+                Random r = new Random();
+                int newIndex = r.nextInt(activePairs.size());
+                model.setActiveQueryPair(activePairs.get(newIndex).getUuid());
+            }
         }
     }
 

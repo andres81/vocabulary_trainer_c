@@ -43,6 +43,7 @@ public class Main implements RepresentativesViewCallback {
 //        reps.add(new DefaultRepresentative(new UUID(5,6), "button three", null));
 //        
         VocabularyExerciseModel model = new VocabularyExerciseModel();
+        model.addObserver(guiOptions);
         List<VocabularyEntryPair> pairs = new ArrayList<>();
         
         VocabularyEntryPair pair = new VocabularyEntryPair(new UUID(1,2));
@@ -65,8 +66,7 @@ public class Main implements RepresentativesViewCallback {
         model.setActivePairs(activeUuids);
         guiOptions.setModel(model);
         
-
-        
+        guiOptions.setController(new VocabularyExerciseControllerDefault());
         
 //        VocabularyEntryPair entry1 = new VocabularyEntryPair(new UUID(100, 200), "button1");
 //        VocabularyEntryPair entry2 = new VocabularyEntryPair(new UUID(200, 100), "button2");

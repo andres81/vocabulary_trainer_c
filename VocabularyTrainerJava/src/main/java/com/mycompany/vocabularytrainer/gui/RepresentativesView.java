@@ -6,6 +6,7 @@
 package com.mycompany.vocabularytrainer.gui;
 
 import com.mycompany.vocabularytrainer.domain.Representative;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -85,7 +86,6 @@ public class RepresentativesView extends JPanel implements ActionListener {
             buttonMapper = new HashMap<>();
         }
         if (representatives != null) {
-            add(Box.createVerticalGlue());
             for (Representative rep : representatives) {
                 JButton button = new JButton();
                 button.setAlignmentX(CENTER_ALIGNMENT);
@@ -99,10 +99,10 @@ public class RepresentativesView extends JPanel implements ActionListener {
                         break;
                 }
                 add(button);
+                add(Box.createRigidArea(new Dimension(10, 10)));
                 buttonMapper.put(button,rep.getUuid());
                 button.addActionListener(this);
             }
-            add(Box.createVerticalGlue());
         }
         revalidate();
     }

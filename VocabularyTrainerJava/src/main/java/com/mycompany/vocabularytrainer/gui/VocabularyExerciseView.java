@@ -7,6 +7,7 @@ package com.mycompany.vocabularytrainer.gui;
 
 import com.mycompany.vocabularytrainer.domain.VocabularyExerciseController;
 import com.mycompany.vocabularytrainer.domain.VocabularyExerciseModel;
+import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.UUID;
@@ -54,8 +55,9 @@ public class VocabularyExerciseView extends JPanel implements Observer, Represen
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         queryView = new JLabel();
         queryView.setAlignmentX(CENTER_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(50, 50)));
         add(queryView);
-        add(Box.createVerticalGlue());
+        add(Box.createRigidArea(new Dimension(50, 50)));
         representativesView = new RepresentativesView(this);
         representativesView.setAlignmentX(CENTER_ALIGNMENT);
         add(representativesView);
@@ -114,7 +116,8 @@ public class VocabularyExerciseView extends JPanel implements Observer, Represen
      */
     @Override
     public void representativeClicked(UUID uuid) {
-        logger.info(uuid);
-        
+        if (controller != null) {
+            controller.doGuess(uuid);
+        }
     }
 }

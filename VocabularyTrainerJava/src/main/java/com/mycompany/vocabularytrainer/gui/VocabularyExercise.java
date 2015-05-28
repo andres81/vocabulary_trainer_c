@@ -55,8 +55,9 @@ public class VocabularyExercise extends JPanel implements Observer, Representati
     public VocabularyExercise() {
         super();
         init();
-        setModel(new DefaultVocabularyModel());
+        model = new DefaultVocabularyModel();
         setController(new DefaultVocabularyController(model));
+        setModel(model);
     }
     
     /**

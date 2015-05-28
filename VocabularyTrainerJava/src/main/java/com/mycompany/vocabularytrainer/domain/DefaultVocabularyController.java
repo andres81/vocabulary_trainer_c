@@ -5,6 +5,8 @@
  */
 package com.mycompany.vocabularytrainer.domain;
 
+import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyController;
+import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyModel;
 import java.util.UUID;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;

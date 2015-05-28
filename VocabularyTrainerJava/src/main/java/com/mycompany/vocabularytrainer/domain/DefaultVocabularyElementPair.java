@@ -5,6 +5,7 @@
  */
 package com.mycompany.vocabularytrainer.domain;
 
+import com.mycompany.vocabularytrainer.domain.interfaces.DecorableRepresentative;
 import java.util.Objects;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
@@ -14,20 +15,20 @@ import org.apache.logging.log4j.Logger;
  *
  * @author andres81
  */
-public class VocabularyElementPair {
+public class DefaultVocabularyElementPair {
 
     // Logging
-    private static final Logger logger = LogManager.getLogger(VocabularyElementPair.class);
+    private static final Logger logger = LogManager.getLogger(DefaultVocabularyElementPair.class);
     
     /**
      * 
      */
-    private final Representative entryOne;
+    private final DecorableRepresentative entryOne;
     
     /**
      * 
      */
-    private final Representative entryTwo;
+    private final DecorableRepresentative entryTwo;
     
     /**
      * 
@@ -40,7 +41,7 @@ public class VocabularyElementPair {
      * @param first
      * @param second
      */
-    public VocabularyElementPair(UUID uuid, Representative first, Representative second) {
+    public DefaultVocabularyElementPair(UUID uuid, DecorableRepresentative first, DecorableRepresentative second) {
         this.uuid = uuid;
         entryOne = first;
         entryTwo = second;
@@ -50,7 +51,7 @@ public class VocabularyElementPair {
      * 
      * @return 
      */
-    public Representative getFirst() {
+    public DecorableRepresentative getFirst() {
         return entryOne;
     }
     
@@ -58,7 +59,7 @@ public class VocabularyElementPair {
      * 
      * @return 
      */
-    public Representative getSecond() {
+    public DecorableRepresentative getSecond() {
         return entryTwo;
     }
     
@@ -76,8 +77,8 @@ public class VocabularyElementPair {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof VocabularyElementPair) {
-            VocabularyElementPair pair = (VocabularyElementPair) obj;
+        if (obj instanceof DefaultVocabularyElementPair) {
+            DefaultVocabularyElementPair pair = (DefaultVocabularyElementPair) obj;
             return uuid == pair.getUuid();
         }
         return false;

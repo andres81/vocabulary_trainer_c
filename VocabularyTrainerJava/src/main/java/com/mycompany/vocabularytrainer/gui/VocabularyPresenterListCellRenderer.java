@@ -5,7 +5,7 @@
  */
 package com.mycompany.vocabularytrainer.gui;
 
-import com.mycompany.vocabularytrainer.domain.VocabularyElementPair;
+import com.mycompany.vocabularytrainer.domain.DefaultVocabularyElementPair;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.BoxLayout;
@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author andres81
  */
-public class VocabularyPresenterListCellRenderer extends JPanel implements ListCellRenderer<VocabularyElementPair>{
+public class VocabularyPresenterListCellRenderer extends JPanel implements ListCellRenderer<DefaultVocabularyElementPair>{
 
     private JLabel labelone;
     private JLabel labeltwo;
@@ -46,8 +46,8 @@ public class VocabularyPresenterListCellRenderer extends JPanel implements ListC
      * @return 
      */
     @Override
-    public Component getListCellRendererComponent(JList<? extends VocabularyElementPair> list,
-                                                  VocabularyElementPair value,
+    public Component getListCellRendererComponent(JList<? extends DefaultVocabularyElementPair> list,
+                                                  DefaultVocabularyElementPair value,
                                                   int index,
                                                   boolean isSelected,
                                                   boolean cellHasFocus) {

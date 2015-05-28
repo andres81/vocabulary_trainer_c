@@ -7,8 +7,8 @@ package com.mycompany.vocabularytrainer.gui;
 
 import com.mycompany.vocabularytrainer.domain.DefaultVocabularyController;
 import com.mycompany.vocabularytrainer.domain.DefaultVocabularyModel;
-import com.mycompany.vocabularytrainer.domain.VocabularyController;
-import com.mycompany.vocabularytrainer.domain.VocabularyModel;
+import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyController;
+import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyModel;
 import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;

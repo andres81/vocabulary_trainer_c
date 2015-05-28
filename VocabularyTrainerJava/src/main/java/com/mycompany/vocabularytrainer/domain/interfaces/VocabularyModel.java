@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.vocabularytrainer.domain;
+package com.mycompany.vocabularytrainer.domain.interfaces;
 
+import com.mycompany.vocabularytrainer.domain.DefaultVocabularyElementPair;
 import java.util.List;
 import java.util.Observer;
 import java.util.UUID;
@@ -35,13 +36,13 @@ public interface VocabularyModel {
      * 
      * @param pairs 
      */
-    public void setVocabularyElementPairs(List<VocabularyElementPair> pairs);
+    public void setVocabularyElementPairs(List<DefaultVocabularyElementPair> pairs);
     
     public List<Representative> getActiveOptions();
     
     public Representative getActiveQuery();
     
-    public List<VocabularyElementPair> getActivePairs();
+    public List<DefaultVocabularyElementPair> getActivePairs();
     
     public void setActivePairs(List<UUID> activePairUuids);
     
@@ -49,7 +50,7 @@ public interface VocabularyModel {
     
     public void setActiveQueryPair();
     
-    public VocabularyElementPair getActiveQueryPair();
+    public DefaultVocabularyElementPair getActiveQueryPair();
     
     public boolean isQueryOption(UUID uuid);
     

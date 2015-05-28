@@ -5,7 +5,7 @@
  */
 package com.mycompany.vocabularytrainer.gui;
 
-import com.mycompany.vocabularytrainer.domain.Representative;
+import com.mycompany.vocabularytrainer.domain.interfaces.Representative;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

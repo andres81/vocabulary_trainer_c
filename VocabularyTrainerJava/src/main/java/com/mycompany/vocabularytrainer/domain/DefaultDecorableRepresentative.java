@@ -5,10 +5,13 @@
  */
 package com.mycompany.vocabularytrainer.domain;
 
+import com.mycompany.vocabularytrainer.domain.interfaces.DecorableRepresentative;
+import java.awt.Image;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  *
@@ -16,8 +19,32 @@ import java.util.Set;
  */
 public class DefaultDecorableRepresentative extends DefaultRepresentative implements DecorableRepresentative {
 
+    /**
+     * 
+     */
     private Map<Object,Object> decorators = null;
+
+    /**
+     * 
+     */
+    public DefaultDecorableRepresentative() {
+        super();
+    }
+            
+    /**
+     * 
+     * @param uuid
+     * @param title
+     * @param image 
+     */
+    public DefaultDecorableRepresentative(UUID uuid, String title, Image image) {
+        super(uuid, title, image);
+    }
     
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int size() {
         if (decorators == null) {
@@ -26,6 +53,10 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.size();
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public boolean isEmpty() {
         if (decorators == null) {
@@ -34,6 +65,11 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.isEmpty();
     }
 
+    /**
+     * 
+     * @param key
+     * @return 
+     */
     @Override
     public boolean containsKey(Object key) {
         if (decorators == null) {
@@ -42,6 +78,11 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.containsKey(key);
     }
 
+    /**
+     * 
+     * @param value
+     * @return 
+     */
     @Override
     public boolean containsValue(Object value) {
         if (decorators == null) {
@@ -50,6 +91,11 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.containsValue(value);
     }
 
+    /**
+     * 
+     * @param key
+     * @return 
+     */
     @Override
     public Object get(Object key) {
         if (decorators == null) {
@@ -58,6 +104,12 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.get(key);
     }
 
+    /**
+     * 
+     * @param key
+     * @param value
+     * @return 
+     */
     @Override
     public Object put(Object key, Object value) {
         if (decorators == null) {
@@ -66,6 +118,11 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.put(key, value);
     }
 
+    /**
+     * 
+     * @param key
+     * @return 
+     */
     @Override
     public Object remove(Object key) {
         if (decorators == null) {
@@ -74,6 +131,10 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.remove(key);
     }
 
+    /**
+     * 
+     * @param m 
+     */
     @Override
     public void putAll(Map<? extends Object, ? extends Object> m) {
         if (decorators == null) {
@@ -81,7 +142,10 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         }
         decorators.putAll(m);
     }
-
+    
+    /**
+     * 
+     */
     @Override
     public void clear() {
         if (decorators == null) {
@@ -90,6 +154,10 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         decorators.clear();
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public Set<Object> keySet() {
         if (decorators == null) {
@@ -98,6 +166,10 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.keySet();
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public Collection<Object> values() {
         if (decorators == null) {
@@ -106,6 +178,10 @@ public class DefaultDecorableRepresentative extends DefaultRepresentative implem
         return decorators.values();
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public Set<Entry<Object, Object>> entrySet() {
         if (decorators == null) {

@@ -1,7 +1,7 @@
 package com.mycompany.vocabularytrainer.domain;
 
 
-import com.mycompany.vocabularytrainer.domain.interfaces.Representative;
+import com.mycompany.vocabularytrainer.domain.interfaces.DecorableRepresentative;
 import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyModel;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private List<Representative> activeOptions = null;
+    private List<DecorableRepresentative> activeOptions = null;
     
     /**
      * 
@@ -41,7 +41,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private Representative activeQuery = null;
+    private DecorableRepresentative activeQuery = null;
 
     /**
      * 
@@ -51,7 +51,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private Representative activeQueryOption = null;
+    private DecorableRepresentative activeQueryOption = null;
     
     /**
      * 
@@ -106,7 +106,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * @return 
      */
     @Override
-    public List<Representative> getActiveOptions() {
+    public List<DecorableRepresentative> getActiveOptions() {
         if (activeOptions == null) {
             activeOptions = new ArrayList<>();
         }
@@ -118,9 +118,9 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * @return 
      */
     @Override
-    public Representative getActiveQuery() {
+    public DecorableRepresentative getActiveQuery() {
         if (activeQuery == null) {
-            activeQuery = new DefaultRepresentative();
+            activeQuery = new DefaultDecorableRepresentative();
         }
         return activeQuery;
     }
@@ -129,7 +129,8 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * 
      * @return 
      */
-    public Representative getActiveOption() {
+    @Override
+    public DecorableRepresentative getActiveQueryOption() {
         return activeQueryOption;
     }
     
@@ -145,20 +146,6 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
         return new ArrayList<>(activePairs);
     }
 
-    /**
-     * 
-     * @return 
-     */
-    public List<Integer> getActivePairIndexes() {
-       
-        List<Integer> indexes = new ArrayList<>();
-        for (DefaultVocabularyElementPair pair : activePairs) {
-            
-        }
-        
-        return indexes;
-    }
-    
     /**
      * 
      * @param activePairUuids 
@@ -187,23 +174,6 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     }
     
     /**
-     * 
-     */
-    private void setActiveOptions() {
-        if (activeOptions == null) {
-            activeOptions = new ArrayList<>();
-        }
-        for (DefaultVocabularyElementPair pair : activePairs) {
-            if (direction == Direction.COLUMNONETOONE ||
-                direction == Direction.COLUMNTWOTOONE) {
-                activeOptions.add(pair.getFirst());
-            } else {
-                activeOptions.add(pair.getSecond());
-            }
-        }
-    }
-    
-    /**
      * Set a new random active query pair.
      */
     @Override
@@ -222,6 +192,33 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     @Override
     public void setActiveQueryPair(UUID uuid) {
         setActiveQueryPair(uuid, true);
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public DefaultVocabularyElementPair getActiveQueryPair() {
+        return activeQueryPair;
+    }
+    
+    /**
+     * 
+     * @param uuid
+     * @return 
+     */
+    @Override
+    public boolean isQueryOption(UUID uuid) {
+        if (uuid == null) {
+            throw new NullPointerException();
+        }
+        return uuid == activeQueryOption.getUuid();
+    }
+    
+    @Override
+    public void addObserver(Observer o) {
+       super.addObserver(o);
     }
     
     /**
@@ -259,28 +256,18 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     
     /**
      * 
-     * @return 
      */
-    @Override
-    public DefaultVocabularyElementPair getActiveQueryPair() {
-        return activeQueryPair;
-    }
-    
-    /**
-     * 
-     * @param uuid
-     * @return 
-     */
-    @Override
-    public boolean isQueryOption(UUID uuid) {
-        if (uuid == null) {
-            throw new NullPointerException();
+    private void setActiveOptions() {
+        if (activeOptions == null) {
+            activeOptions = new ArrayList<>();
         }
-        return uuid == activeQueryOption.getUuid();
-    }
-    
-    @Override
-    public void addObserver(Observer o) {
-       super.addObserver(o);
+        for (DefaultVocabularyElementPair pair : activePairs) {
+            if (direction == Direction.COLUMNONETOONE ||
+                direction == Direction.COLUMNTWOTOONE) {
+                activeOptions.add(pair.getFirst());
+            } else {
+                activeOptions.add(pair.getSecond());
+            }
+        }
     }
 }

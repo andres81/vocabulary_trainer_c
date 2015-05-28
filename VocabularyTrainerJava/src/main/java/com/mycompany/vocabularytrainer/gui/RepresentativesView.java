@@ -5,6 +5,7 @@
  */
 package com.mycompany.vocabularytrainer.gui;
 
+import com.mycompany.vocabularytrainer.domain.interfaces.DecorableRepresentative;
 import com.mycompany.vocabularytrainer.domain.interfaces.Representative;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -32,7 +33,7 @@ public class RepresentativesView extends JPanel implements ActionListener {
     /**
      * 
      */
-    private List<Representative> representatives = null;
+    private List<? extends Representative> representatives = null;
     
     /**
      * 
@@ -72,7 +73,7 @@ public class RepresentativesView extends JPanel implements ActionListener {
      * 
      * @param representatives 
      */
-    public void setRepresentatives(List<Representative> representatives) {
+    public void setRepresentatives(List<? extends Representative> representatives) {
         this.representatives = representatives;
         initGui();
     }

@@ -38,21 +38,63 @@ public interface VocabularyModel {
      */
     public void setVocabularyElementPairs(List<DefaultVocabularyElementPair> pairs);
     
-    public List<Representative> getActiveOptions();
+    /**
+     * 
+     * @return 
+     */
+    public List<DecorableRepresentative> getActiveOptions();
     
-    public Representative getActiveQuery();
+    /**
+     * 
+     * @return 
+     */
+    public DecorableRepresentative getActiveQuery();
     
+    /**
+     * 
+     * @return 
+     */
+    public DecorableRepresentative getActiveQueryOption();
+    
+    /**
+     * 
+     * @return 
+     */
     public List<DefaultVocabularyElementPair> getActivePairs();
     
+    /**
+     * 
+     * @param activePairUuids 
+     */
     public void setActivePairs(List<UUID> activePairUuids);
     
+    /**
+     * 
+     * @param uuid 
+     */
     public void setActiveQueryPair(UUID uuid);
     
+    /**
+     * 
+     */
     public void setActiveQueryPair();
     
+    /**
+     * 
+     * @return 
+     */
     public DefaultVocabularyElementPair getActiveQueryPair();
     
+    /**
+     * 
+     * @param uuid
+     * @return 
+     */
     public boolean isQueryOption(UUID uuid);
     
+    /**
+     * 
+     * @param o 
+     */
     public void addObserver(Observer o);
 }

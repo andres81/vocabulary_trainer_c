@@ -35,13 +35,13 @@ public interface VocabularyModel {
      * 
      * @param pairs 
      */
-    public void setVocabularyEntryPairs(List<VocabularyEntryPair> pairs);
+    public void setVocabularyElementPairs(List<VocabularyElementPair> pairs);
     
     public List<Representative> getActiveOptions();
     
     public Representative getActiveQuery();
     
-    public List<VocabularyEntryPair> getActivePairs();
+    public List<VocabularyElementPair> getActivePairs();
     
     public void setActivePairs(List<UUID> activePairUuids);
     
@@ -49,7 +49,7 @@ public interface VocabularyModel {
     
     public void setActiveQueryPair();
     
-    public VocabularyEntryPair getActiveQueryPair();
+    public VocabularyElementPair getActiveQueryPair();
     
     public boolean isQueryOption(UUID uuid);
     

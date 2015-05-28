@@ -5,12 +5,26 @@
  */
 package com.mycompany.vocabularytrainer.gui;
 
-import javax.swing.JPanel;
+import javax.swing.JList;
+import javax.swing.ListModel;
 
 /**
  *
  * @author andres81
  */
-public class VocabularyPresenter extends JPanel {
-    
+public class VocabularyPresenter<T> extends JList<T> {
+
+    /**
+     * 
+     * @param listModel 
+     */
+    public VocabularyPresenter(ListModel listModel) {
+        super(listModel);
+        
+        
+        
+        
+        
+        
+    }
 }

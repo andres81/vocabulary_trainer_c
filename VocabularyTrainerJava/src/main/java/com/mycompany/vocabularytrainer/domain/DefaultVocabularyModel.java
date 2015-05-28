@@ -24,7 +24,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private Map<UUID,VocabularyEntryPair> pairs = null;
+    private Map<UUID,VocabularyElementPair> pairs = null;
     
     /**
      * 
@@ -34,7 +34,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private List<VocabularyEntryPair> activePairs = null;
+    private List<VocabularyElementPair> activePairs = null;
             
     /**
      * 
@@ -44,12 +44,12 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private VocabularyEntryPair activeQueryPair = null;
-    
+    private VocabularyElementPair activeQueryPair = null;
+            
     /**
      * 
      */
-    private Representative queryOption;
+    private Representative activeQueryOption = null;
     
     /**
      * 
@@ -84,14 +84,15 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * @param pairs
      */
     @Override
-    public void setVocabularyEntryPairs(List<VocabularyEntryPair> pairs) {
+    public void setVocabularyElementPairs(List<VocabularyElementPair> pairs) {
         if (pairs == null) {
             throw new NullPointerException();
         }
+
         if (this.pairs == null) {
             this.pairs = new HashMap<>();
         }
-        for (VocabularyEntryPair pair : pairs) {
+        for (VocabularyElementPair pair : pairs) {
             this.pairs.put(pair.getUuid(), pair);
         }
         setChanged();
@@ -126,14 +127,36 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * 
      * @return 
      */
+    public Representative getActiveOption() {
+        return activeQueryOption;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
     @Override
-    public List<VocabularyEntryPair> getActivePairs() {
+    public List<VocabularyElementPair> getActivePairs() {
         if (activePairs == null) {
             activePairs = new ArrayList<>();
         }
         return new ArrayList<>(activePairs);
     }
 
+    /**
+     * 
+     * @return 
+     */
+    public List<Integer> getActivePairIndexes() {
+       
+        List<Integer> indexes = new ArrayList<>();
+        for (VocabularyElementPair pair : activePairs) {
+            
+        }
+        
+        return indexes;
+    }
+    
     /**
      * 
      * @param activePairUuids 
@@ -148,7 +171,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
         }
         activePairs.clear();
         for (UUID uuid : activePairUuids) {
-            VocabularyEntryPair pair = this.pairs.get(uuid);
+            VocabularyElementPair pair = this.pairs.get(uuid);
             if (pair != null) {
                 activePairs.add(pair);
             }
@@ -168,7 +191,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
         if (activeOptions == null) {
             activeOptions = new ArrayList<>();
         }
-        for (VocabularyEntryPair pair : activePairs) {
+        for (VocabularyElementPair pair : activePairs) {
             if (direction == Direction.COLUMNONETOONE ||
                 direction == Direction.COLUMNTWOTOONE) {
                 activeOptions.add(pair.getFirst());
@@ -176,6 +199,18 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
                 activeOptions.add(pair.getSecond());
             }
         }
+    }
+    
+    /**
+     * Set a new random active query pair.
+     */
+    @Override
+    public void setActiveQueryPair() {
+        List<VocabularyElementPair> temp = new ArrayList<>(activePairs);
+        temp.remove(activeQueryPair);
+        Random r = new Random();
+        int newIndex = r.nextInt(temp.size());
+        setActiveQueryPair(temp.get(newIndex).getUuid(),true);
     }
     
     /**
@@ -192,26 +227,26 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * @param uuid 
      */
     private void setActiveQueryPair(UUID uuid, boolean updateObservers) {
-        VocabularyEntryPair pair = pairs.get(uuid);
+        VocabularyElementPair pair = pairs.get(uuid);
         if (pair == null ||
             !activePairs.contains(pair)) return; // No pair found with given uuid!
         activeQueryPair = pair;
         switch(direction) {
             case COLUMNONETOONE:
                 activeQuery = pair.getFirst();
-                queryOption = pair.getFirst();
+                activeQueryOption = pair.getFirst();
                 break;
             case COLUMNONETOTWO:
                 activeQuery = pair.getFirst();
-                queryOption = pair.getSecond();
+                activeQueryOption = pair.getSecond();
                 break;
             case COLUMNTWOTOONE:
                 activeQuery = pair.getSecond();
-                queryOption = pair.getFirst();
+                activeQueryOption = pair.getFirst();
                 break;
             case COLUMNTWOTOTWO:
                 activeQuery = pair.getSecond();
-                queryOption = pair.getSecond();
+                activeQueryOption = pair.getSecond();
                 break;
         }
         if (updateObservers) {
@@ -221,23 +256,11 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     }
     
     /**
-     * Set a new random active query pair.
-     */
-    @Override
-    public void setActiveQueryPair() {
-        List<VocabularyEntryPair> temp = new ArrayList<>(activePairs);
-        temp.remove(activeQueryPair);
-        Random r = new Random();
-        int newIndex = r.nextInt(temp.size());
-        setActiveQueryPair(temp.get(newIndex).getUuid(),true);
-    }
-    
-    /**
      * 
      * @return 
      */
     @Override
-    public VocabularyEntryPair getActiveQueryPair() {
+    public VocabularyElementPair getActiveQueryPair() {
         return activeQueryPair;
     }
     
@@ -251,7 +274,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
         if (uuid == null) {
             throw new NullPointerException();
         }
-        return uuid == queryOption.getUuid();
+        return uuid == activeQueryOption.getUuid();
     }
     
     @Override

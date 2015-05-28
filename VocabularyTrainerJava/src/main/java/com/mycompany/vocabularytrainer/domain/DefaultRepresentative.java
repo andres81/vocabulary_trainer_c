@@ -6,6 +6,8 @@
 package com.mycompany.vocabularytrainer.domain;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,6 +42,8 @@ public class DefaultRepresentative implements Representative {
      */
     public DefaultRepresentative() {
         uuid = UUID.randomUUID();
+        image = new BufferedImage(100, 100, TYPE_INT_RGB);
+        title = "TITLE";
     }
     
     /**
@@ -49,12 +53,16 @@ public class DefaultRepresentative implements Representative {
      * @param image
      */
     public DefaultRepresentative(UUID uuid, String title, Image image) {
-        if (uuid == null) {
-            throw new NullPointerException();
+        this();
+        if (uuid != null) {
+            this.uuid = uuid;
         }
-        this.uuid = uuid;
-        this.title = title;
-        this.image = image;
+        if (title != null) {
+            this.title = title;
+        }
+        if (image != null) {
+            this.image = image;
+        }
     }
     
     /**
@@ -70,6 +78,9 @@ public class DefaultRepresentative implements Representative {
      * @param image 
      */
     public void setImage(Image image) {
+        if (image == null) {
+            throw new NullPointerException("Null given for image parameter!");
+        }
         this.image = image;
     }
     
@@ -79,9 +90,6 @@ public class DefaultRepresentative implements Representative {
      */
     @Override
     public String getTitle() {
-        if (title == null) {
-            title = "";
-        }
         return title; 
     }
     
@@ -90,6 +98,9 @@ public class DefaultRepresentative implements Representative {
      * @param title 
      */
     public void setTitle(String title) {
+        if (title == null) {
+            throw new NullPointerException("");
+        }
         this.title = title;
     }
 

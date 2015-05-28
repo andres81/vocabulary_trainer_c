@@ -5,23 +5,29 @@
  */
 package com.mycompany.vocabularytrainer.gui;
 
-import com.mycompany.vocabularytrainer.domain.Representative;
+import com.mycompany.vocabularytrainer.domain.VocabularyElementPair;
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author andres81
  */
-public class VocabularyPresenterListCellRenderer extends JPanel implements ListCellRenderer<Representative>{
+public class VocabularyPresenterListCellRenderer extends JPanel implements ListCellRenderer<VocabularyElementPair>{
 
     private JLabel labelone;
     private JLabel labeltwo;
     private JLabel labelthree;
+    
+    // Logging
+    private static final Logger logger = LogManager.getLogger(VocabularyPresenterListCellRenderer.class);
     
     /**
      * 
@@ -40,27 +46,31 @@ public class VocabularyPresenterListCellRenderer extends JPanel implements ListC
      * @return 
      */
     @Override
-    public Component getListCellRendererComponent(JList<? extends Representative> list,
-                                                  Representative value,
+    public Component getListCellRendererComponent(JList<? extends VocabularyElementPair> list,
+                                                  VocabularyElementPair value,
                                                   int index,
                                                   boolean isSelected,
                                                   boolean cellHasFocus) {
         
-//        setText(value.getTitle());
         removeAll();
-        labelone = new JLabel(value.getTitle());
-        labeltwo = new JLabel(value.getTitle());
-        labelthree = new JLabel(value.getTitle());
-//        
-        add(labelone);
-        add(labeltwo);
-        add(labelthree);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel row = new JPanel();
+        row.setAlignmentX(CENTER_ALIGNMENT);
+        labelone = new JLabel(value.getFirst().getTitle());
+        labeltwo = new JLabel(" - ");
+        labelthree = new JLabel(value.getSecond().getTitle());
+
+        row.add(labelone);        
+        row.add(labeltwo);
+        row.add(labelthree);
 //        
 //        if (isSelected) {
 //            labelone.setBackground(Color.red);
 //            labeltwo.setBackground(Color.red);
 //            labelthree.setBackground(Color.red);
 //        }
+        
+        add(row);
         
         if (isSelected) { 
             setBackground(list.getSelectionBackground()); 
@@ -73,6 +83,5 @@ public class VocabularyPresenterListCellRenderer extends JPanel implements ListC
         
         return this;
     }
-    
 }
 

@@ -7,13 +7,15 @@ package com.mycompany.vocabularytrainer.domain;
 
 import com.mycompany.vocabularytrainer.gui.RepresentativesViewCallback;
 import com.mycompany.vocabularytrainer.gui.VocabularyExercise;
+import com.mycompany.vocabularytrainer.gui.VocabularyPresenter;
 import com.mycompany.vocabularytrainer.gui.VocabularyPresenterListCellRenderer;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,20 +33,24 @@ public class Main implements RepresentativesViewCallback {
         
         JFrame frame = new JFrame();
         VocabularyExercise guiOptions = new VocabularyExercise();
-        frame.add(guiOptions);
+        JPanel contentPane = (JPanel) frame.getContentPane();
+        contentPane.add(guiOptions,BorderLayout.CENTER);
         
         VocabularyModel model = guiOptions.getModel();
-        model.setVocabularyEntryPairs(getRepresentatives());
+        model.setVocabularyElementPairs(getRepresentatives());
         model.setActivePairs(getActiveUuids());
         
-        DefaultListModel<Representative> listModel = new DefaultListModel<>();
-        JList<Representative> list = new JList<>(listModel);
-        list.setCellRenderer(new VocabularyPresenterListCellRenderer());
-        listModel.addElement(new DefaultRepresentative(new UUID(111,222), "one", null));
-        listModel.addElement(new DefaultRepresentative(new UUID(211,222), "two", null));
-        listModel.addElement(new DefaultRepresentative(new UUID(311,222), "three", null));
+        DefaultListModel<VocabularyElementPair> listModel = new DefaultListModel<>();
+        VocabularyPresenter<VocabularyElementPair> vocPresenter = new VocabularyPresenter<>(listModel);
+        vocPresenter.setCellRenderer(new VocabularyPresenterListCellRenderer());
+        for (VocabularyElementPair pair : getRepresentatives()) {
+            listModel.addElement(pair);
+        }
+//        listModel.addElement(new DefaultRepresentative(new UUID(111,222), "one", null));
+//        listModel.addElement(new DefaultRepresentative(new UUID(211,222), "two", null));
+//        listModel.addElement(new DefaultRepresentative(new UUID(311,222), "three", null));
         
-//        frame.add(new JScrollPane(list));
+        contentPane.add(new JScrollPane(vocPresenter),BorderLayout.EAST);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -67,18 +73,18 @@ public class Main implements RepresentativesViewCallback {
      * 
      * @return 
      */
-    public static List<VocabularyEntryPair> getRepresentatives() {
-        List<VocabularyEntryPair> pairs = new ArrayList<>();
+    public static List<VocabularyElementPair> getRepresentatives() {
+        List<VocabularyElementPair> pairs = new ArrayList<>();
         
-        VocabularyEntryPair pair = new VocabularyEntryPair(new UUID(1,2),
+        VocabularyElementPair pair = new VocabularyElementPair(new UUID(1,2),
             new DefaultRepresentative(new UUID(111,222), "one", null),
             new DefaultRepresentative(new UUID(333,444), "un", null));
         pairs.add(pair);
-        pair = new VocabularyEntryPair(new UUID(3,4),
+        pair = new VocabularyElementPair(new UUID(3,4),
             new DefaultRepresentative(new UUID(11,22), "two", null),
             new DefaultRepresentative(new UUID(33,44), "deux", null));
         pairs.add(pair);
-        pair = new VocabularyEntryPair(new UUID(5,6),
+        pair = new VocabularyElementPair(new UUID(5,6),
             new DefaultRepresentative(new UUID(1,5), "three", null),
             new DefaultRepresentative(new UUID(2,6), "trois", null));
         pairs.add(pair);

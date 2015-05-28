@@ -14,10 +14,10 @@ import org.apache.logging.log4j.Logger;
  *
  * @author andres81
  */
-public class VocabularyEntryPair {
+public class VocabularyElementPair {
 
     // Logging
-    private static final Logger logger = LogManager.getLogger(VocabularyEntryPair.class);
+    private static final Logger logger = LogManager.getLogger(VocabularyElementPair.class);
     
     /**
      * 
@@ -40,7 +40,7 @@ public class VocabularyEntryPair {
      * @param first
      * @param second
      */
-    public VocabularyEntryPair(UUID uuid, Representative first, Representative second) {
+    public VocabularyElementPair(UUID uuid, Representative first, Representative second) {
         this.uuid = uuid;
         entryOne = first;
         entryTwo = second;
@@ -76,8 +76,8 @@ public class VocabularyEntryPair {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof VocabularyEntryPair) {
-            VocabularyEntryPair pair = (VocabularyEntryPair) obj;
+        if (obj instanceof VocabularyElementPair) {
+            VocabularyElementPair pair = (VocabularyElementPair) obj;
             return uuid == pair.getUuid();
         }
         return false;

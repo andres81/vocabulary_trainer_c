@@ -5,6 +5,7 @@
  */
 package com.mycompany.vocabularytrainer.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,5 +68,29 @@ public class VocabularyEntryPair {
      */
     public UUID getUuid() {
         return uuid;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof VocabularyEntryPair) {
+            VocabularyEntryPair pair = (VocabularyEntryPair) obj;
+            return uuid == pair.getUuid();
+        }
+        return false;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.uuid);
+        return hash;
     }
 }

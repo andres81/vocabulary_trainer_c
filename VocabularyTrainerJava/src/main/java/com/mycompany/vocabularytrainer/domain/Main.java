@@ -6,7 +6,7 @@
 package com.mycompany.vocabularytrainer.domain;
 
 import com.mycompany.vocabularytrainer.gui.RepresentativesViewCallback;
-import com.mycompany.vocabularytrainer.gui.VocabularyExerciseView;
+import com.mycompany.vocabularytrainer.gui.VocabularyExercise;
 import com.mycompany.vocabularytrainer.gui.VocabularyPresenterListCellRenderer;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +30,12 @@ public class Main implements RepresentativesViewCallback {
     public static void main(String[] args) {
         
         JFrame frame = new JFrame();
-        VocabularyExerciseView guiOptions = new VocabularyExerciseView();
-//        frame.add(guiOptions);
+        VocabularyExercise guiOptions = new VocabularyExercise();
+        frame.add(guiOptions);
         
-        VocabularyExerciseModel model = new VocabularyExerciseModel();
+        VocabularyModel model = guiOptions.getModel();
         model.setVocabularyEntryPairs(getRepresentatives());
         model.setActivePairs(getActiveUuids());
-        guiOptions.setModel(model);
-        guiOptions.setController(new VocabularyExerciseControllerDefault());
-        
-        
         
         DefaultListModel<Representative> listModel = new DefaultListModel<>();
         JList<Representative> list = new JList<>(listModel);
@@ -48,7 +44,7 @@ public class Main implements RepresentativesViewCallback {
         listModel.addElement(new DefaultRepresentative(new UUID(211,222), "two", null));
         listModel.addElement(new DefaultRepresentative(new UUID(311,222), "three", null));
         
-        frame.add(new JScrollPane(list));
+//        frame.add(new JScrollPane(list));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

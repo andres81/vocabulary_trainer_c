@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Observer;
+import java.util.Random;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,10 +16,10 @@ import org.apache.logging.log4j.Logger;
  *
  * @author andres81
  */
-public class VocabularyExerciseModel extends Observable {
+public class DefaultVocabularyModel extends Observable implements VocabularyModel {
     
     // Logging
-    private static final Logger logger = LogManager.getLogger(VocabularyExerciseModel.class);
+    private static final Logger logger = LogManager.getLogger(DefaultVocabularyModel.class);
     
     /**
      * 
@@ -38,26 +40,16 @@ public class VocabularyExerciseModel extends Observable {
      * 
      */
     private Representative activeQuery = null;
-    
-    /**
-     * 
-     */
-    private Representative activeOption = null;
 
     /**
      * 
      */
     private VocabularyEntryPair activeQueryPair = null;
-            
+    
     /**
      * 
      */
-    public enum Direction {
-        ONETOONE,
-        ONETOTWO,
-        TWOTOONE,
-        TWOTOTWO;
-    };
+    private Representative queryOption;
     
     /**
      * 
@@ -67,20 +59,21 @@ public class VocabularyExerciseModel extends Observable {
     /**
      * 
      */
-    public VocabularyExerciseModel() {
-        direction = Direction.ONETOTWO;
+    public DefaultVocabularyModel() {
+        direction = Direction.COLUMNONETOTWO;
     }
     
     /**
      * s
      * @param direction 
      */
+    @Override
     public void setDirection(Direction direction) {
         this.direction = direction;
         setActiveOptions();
         if (activeOptions != null &&
             activeOptions.size() > 0) {
-            setActiveQueryPair(activeOptions.get(0).getUuid());
+            setActiveQueryPair(activeOptions.get(0).getUuid(),false);
         }
         setChanged();
         notifyObservers();
@@ -90,7 +83,11 @@ public class VocabularyExerciseModel extends Observable {
      * 
      * @param pairs
      */
+    @Override
     public void setVocabularyEntryPairs(List<VocabularyEntryPair> pairs) {
+        if (pairs == null) {
+            throw new NullPointerException();
+        }
         if (this.pairs == null) {
             this.pairs = new HashMap<>();
         }
@@ -105,7 +102,11 @@ public class VocabularyExerciseModel extends Observable {
      * 
      * @return 
      */
+    @Override
     public List<Representative> getActiveOptions() {
+        if (activeOptions == null) {
+            activeOptions = new ArrayList<>();
+        }
         return activeOptions;
     }
     
@@ -113,7 +114,11 @@ public class VocabularyExerciseModel extends Observable {
      * 
      * @return 
      */
+    @Override
     public Representative getActiveQuery() {
+        if (activeQuery == null) {
+            activeQuery = new DefaultRepresentative();
+        }
         return activeQuery;
     }
     
@@ -121,15 +126,11 @@ public class VocabularyExerciseModel extends Observable {
      * 
      * @return 
      */
-    public Representative getActiveOption() {
-        return activeOption;
-    }
-    
-    /**
-     * 
-     * @return 
-     */
+    @Override
     public List<VocabularyEntryPair> getActivePairs() {
+        if (activePairs == null) {
+            activePairs = new ArrayList<>();
+        }
         return new ArrayList<>(activePairs);
     }
 
@@ -137,24 +138,23 @@ public class VocabularyExerciseModel extends Observable {
      * 
      * @param activePairUuids 
      */
+    @Override
     public void setActivePairs(List<UUID> activePairUuids) {
-        if (activePairUuids == null ||
-            activePairUuids.size() < 1) {
-            return;
+        if (activePairUuids == null) {
+            throw new NullPointerException();
         }
-        if (activePairs == null) {
-            activePairs = new ArrayList<>();
+        if (this.activePairs == null) {
+            this.activePairs = new ArrayList<>();
         }
-        boolean isActiveQueryPairSet = false;
+        activePairs.clear();
         for (UUID uuid : activePairUuids) {
             VocabularyEntryPair pair = this.pairs.get(uuid);
             if (pair != null) {
                 activePairs.add(pair);
-                if (!isActiveQueryPairSet) {
-                    setActiveQueryPair(uuid,false);
-                    isActiveQueryPairSet = true;
-                }
             }
+        }
+        if (!activePairs.isEmpty()) {
+            setActiveQueryPair(activePairs.get(0).getUuid(),false);
         }
         setActiveOptions();
         setChanged();
@@ -169,8 +169,8 @@ public class VocabularyExerciseModel extends Observable {
             activeOptions = new ArrayList<>();
         }
         for (VocabularyEntryPair pair : activePairs) {
-            if (direction == Direction.ONETOONE ||
-                direction == Direction.TWOTOONE) {
+            if (direction == Direction.COLUMNONETOONE ||
+                direction == Direction.COLUMNTWOTOONE) {
                 activeOptions.add(pair.getFirst());
             } else {
                 activeOptions.add(pair.getSecond());
@@ -182,6 +182,7 @@ public class VocabularyExerciseModel extends Observable {
      * 
      * @param uuid 
      */
+    @Override
     public void setActiveQueryPair(UUID uuid) {
         setActiveQueryPair(uuid, true);
     }
@@ -192,15 +193,26 @@ public class VocabularyExerciseModel extends Observable {
      */
     private void setActiveQueryPair(UUID uuid, boolean updateObservers) {
         VocabularyEntryPair pair = pairs.get(uuid);
-        if (pair == null) return; // No pair found with given uuid!
+        if (pair == null ||
+            !activePairs.contains(pair)) return; // No pair found with given uuid!
         activeQueryPair = pair;
-        if (direction == Direction.ONETOONE ||
-            direction == Direction.ONETOTWO) {
-            activeQuery = pair.getFirst();
-            activeOption = pair.getSecond();
-        } else {
-            activeQuery = pair.getSecond();
-            activeOption = pair.getFirst();
+        switch(direction) {
+            case COLUMNONETOONE:
+                activeQuery = pair.getFirst();
+                queryOption = pair.getFirst();
+                break;
+            case COLUMNONETOTWO:
+                activeQuery = pair.getFirst();
+                queryOption = pair.getSecond();
+                break;
+            case COLUMNTWOTOONE:
+                activeQuery = pair.getSecond();
+                queryOption = pair.getFirst();
+                break;
+            case COLUMNTWOTOTWO:
+                activeQuery = pair.getSecond();
+                queryOption = pair.getSecond();
+                break;
         }
         if (updateObservers) {
             setChanged();
@@ -209,10 +221,41 @@ public class VocabularyExerciseModel extends Observable {
     }
     
     /**
+     * Set a new random active query pair.
+     */
+    @Override
+    public void setActiveQueryPair() {
+        List<VocabularyEntryPair> temp = new ArrayList<>(activePairs);
+        temp.remove(activeQueryPair);
+        Random r = new Random();
+        int newIndex = r.nextInt(temp.size());
+        setActiveQueryPair(temp.get(newIndex).getUuid(),true);
+    }
+    
+    /**
      * 
      * @return 
      */
+    @Override
     public VocabularyEntryPair getActiveQueryPair() {
         return activeQueryPair;
+    }
+    
+    /**
+     * 
+     * @param uuid
+     * @return 
+     */
+    @Override
+    public boolean isQueryOption(UUID uuid) {
+        if (uuid == null) {
+            throw new NullPointerException();
+        }
+        return uuid == queryOption.getUuid();
+    }
+    
+    @Override
+    public void addObserver(Observer o) {
+       super.addObserver(o);
     }
 }

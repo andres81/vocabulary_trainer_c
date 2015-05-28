@@ -37,11 +37,21 @@ public class DefaultRepresentative implements Representative {
     
     /**
      * 
+     */
+    public DefaultRepresentative() {
+        uuid = UUID.randomUUID();
+    }
+    
+    /**
+     * 
      * @param uuid
      * @param title
      * @param image
      */
     public DefaultRepresentative(UUID uuid, String title, Image image) {
+        if (uuid == null) {
+            throw new NullPointerException();
+        }
         this.uuid = uuid;
         this.title = title;
         this.image = image;
@@ -57,11 +67,30 @@ public class DefaultRepresentative implements Representative {
     
     /**
      * 
+     * @param image 
+     */
+    public void setImage(Image image) {
+        this.image = image;
+    }
+    
+    /**
+     * 
      * @return 
      */
     @Override
     public String getTitle() {
-       return title; 
+        if (title == null) {
+            title = "";
+        }
+        return title; 
+    }
+    
+    /**
+     * 
+     * @param title 
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override

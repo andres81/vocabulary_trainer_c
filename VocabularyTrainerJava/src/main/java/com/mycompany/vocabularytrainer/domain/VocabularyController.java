@@ -11,9 +11,17 @@ import java.util.UUID;
  *
  * @author andres81
  */
-public interface VocabularyExerciseController {
+public interface VocabularyController {
 
+    /**
+     * 
+     * @param uuid 
+     */
     public void doGuess(UUID uuid);
     
-    public void setModel(VocabularyExerciseModel model);
+    /**
+     * 
+     * @param model 
+     */
+    public void setModel(VocabularyModel model);
 }

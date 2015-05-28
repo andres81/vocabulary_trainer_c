@@ -5,8 +5,10 @@
  */
 package com.mycompany.vocabularytrainer.gui;
 
-import com.mycompany.vocabularytrainer.domain.VocabularyExerciseController;
-import com.mycompany.vocabularytrainer.domain.VocabularyExerciseModel;
+import com.mycompany.vocabularytrainer.domain.DefaultVocabularyController;
+import com.mycompany.vocabularytrainer.domain.DefaultVocabularyModel;
+import com.mycompany.vocabularytrainer.domain.VocabularyController;
+import com.mycompany.vocabularytrainer.domain.VocabularyModel;
 import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
@@ -22,20 +24,20 @@ import org.apache.logging.log4j.Logger;
  *
  * @author andres81
  */
-public class VocabularyExerciseView extends JPanel implements Observer, RepresentativesViewCallback {
+public class VocabularyExercise extends JPanel implements Observer, RepresentativesViewCallback {
     
     // Logging
-    private static final Logger logger = LogManager.getLogger(VocabularyExerciseView.class);
+    private static final Logger logger = LogManager.getLogger(VocabularyExercise.class);
     
     /**
      * 
      */
-    private VocabularyExerciseModel model = null;
+    private VocabularyModel model = null;
     
     /**
      * 
      */
-    private VocabularyExerciseController controller = null;
+    private VocabularyController controller = null;
     
     /**
      * 
@@ -50,8 +52,17 @@ public class VocabularyExerciseView extends JPanel implements Observer, Represen
     /**
      * 
      */
-    public VocabularyExerciseView() {
+    public VocabularyExercise() {
         super();
+        init();
+        setModel(new DefaultVocabularyModel());
+        setController(new DefaultVocabularyController(model));
+    }
+    
+    /**
+     * 
+     */
+    private void init() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         queryView = new JLabel();
         queryView.setAlignmentX(CENTER_ALIGNMENT);
@@ -67,9 +78,9 @@ public class VocabularyExerciseView extends JPanel implements Observer, Represen
      * 
      * @param model
      */
-    public void setModel(VocabularyExerciseModel model) {
+    public void setModel(VocabularyModel model) {
         if (model == null) {
-            return;
+            throw new NullPointerException("Can't set a null value for the model.");
         }
         this.model = model;
         if (controller != null) {
@@ -83,9 +94,9 @@ public class VocabularyExerciseView extends JPanel implements Observer, Represen
      * 
      * @param controller 
      */
-    public void setController(VocabularyExerciseController controller) {
+    public void setController(VocabularyController controller) {
         this.controller = controller;
-        this.controller.setModel(this.model);
+        this.controller.setModel(model);
     }
     
     /**
@@ -105,7 +116,7 @@ public class VocabularyExerciseView extends JPanel implements Observer, Represen
      */
     private void updateVocabularyEntryPairs() {
         if (model == null) {
-            return;
+            throw new NullPointerException();
         }
         representativesView.setRepresentatives(model.getActiveOptions());
         queryView.setText(model.getActiveQuery().getTitle());
@@ -120,5 +131,13 @@ public class VocabularyExerciseView extends JPanel implements Observer, Represen
         if (controller != null) {
             controller.doGuess(uuid);
         }
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public VocabularyModel getModel() {
+        return model;
     }
 }

@@ -61,6 +61,21 @@ public class VocabularyExercise extends JPanel implements Observer, Representati
     
     /**
      * 
+     * @param model
+     * @param controller 
+     */
+    public VocabularyExercise(VocabularyModel model, VocabularyController controller) {
+        this();
+        if (model != null) {
+            setModel(model);
+        }
+        if (controller != null) {
+            setController(controller);
+        }
+    }
+    
+    /**
+     * 
      */
     private void init() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -83,9 +98,7 @@ public class VocabularyExercise extends JPanel implements Observer, Representati
             throw new NullPointerException("Can't set a null value for the model.");
         }
         this.model = model;
-        if (controller != null) {
-            controller.setModel(model);
-        }
+        controller.setModel(model);
         model.addObserver(this);
         updateVocabularyEntryPairs();
     }
@@ -95,6 +108,9 @@ public class VocabularyExercise extends JPanel implements Observer, Representati
      * @param controller 
      */
     public void setController(VocabularyController controller) {
+        if (controller == null) {
+            throw new NullPointerException("Can't set a null value for the controller!");
+        }
         this.controller = controller;
         this.controller.setModel(model);
     }
@@ -115,9 +131,6 @@ public class VocabularyExercise extends JPanel implements Observer, Representati
      * 
      */
     private void updateVocabularyEntryPairs() {
-        if (model == null) {
-            throw new NullPointerException();
-        }
         representativesView.setRepresentatives(model.getActiveOptions());
         queryView.setText(model.getActiveQuery().getTitle());
     }
@@ -128,9 +141,7 @@ public class VocabularyExercise extends JPanel implements Observer, Representati
      */
     @Override
     public void representativeClicked(UUID uuid) {
-        if (controller != null) {
-            controller.doGuess(uuid);
-        }
+        controller.doGuess(uuid);
     }
     
     /**

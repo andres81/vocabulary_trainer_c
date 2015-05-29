@@ -5,10 +5,11 @@
  */
 package com.mycompany.vocabularytrainer.gui;
 
-import com.mycompany.vocabularytrainer.domain.DefaultVocabularyElementPair;
+import com.mycompany.vocabularytrainer.domain.interfaces.DecorableVocabularyElementPair;
+import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyModel;
 import java.awt.Color;
 import java.awt.Component;
-import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -20,7 +21,9 @@ import org.apache.logging.log4j.Logger;
  *
  * @author andres81
  */
-public class VocabularyPresenterListCellRenderer extends JPanel implements ListCellRenderer<DefaultVocabularyElementPair>{
+public class VocabularyPresenterListCellRenderer
+        extends JPanel
+        implements ListCellRenderer<DecorableVocabularyElementPair> {
 
     private JLabel labelone;
     private JLabel labeltwo;
@@ -34,7 +37,7 @@ public class VocabularyPresenterListCellRenderer extends JPanel implements ListC
      */
     public VocabularyPresenterListCellRenderer() {
          setOpaque(true);
-     }
+    }
     
     /**
      * 
@@ -46,42 +49,50 @@ public class VocabularyPresenterListCellRenderer extends JPanel implements ListC
      * @return 
      */
     @Override
-    public Component getListCellRendererComponent(JList<? extends DefaultVocabularyElementPair> list,
-                                                  DefaultVocabularyElementPair value,
+    public Component getListCellRendererComponent(JList<? extends DecorableVocabularyElementPair> list,
+                                                  DecorableVocabularyElementPair value,
                                                   int index,
                                                   boolean isSelected,
                                                   boolean cellHasFocus) {
         
         removeAll();
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JPanel row = new JPanel();
-        row.setAlignmentX(CENTER_ALIGNMENT);
         labelone = new JLabel(value.getFirst().getTitle());
+        labelone.setIcon(new ImageIcon(value.getFirst().getImage()));
         labeltwo = new JLabel(" - ");
         labelthree = new JLabel(value.getSecond().getTitle());
+        labelthree.setIcon(new ImageIcon(value.getSecond().getImage()));
 
-        row.add(labelone);        
-        row.add(labeltwo);
-        row.add(labelthree);
-//        
+        add(labelone);        
+        add(labeltwo);
+        add(labelthree);
+
+        
+  
 //        if (isSelected) {
 //            labelone.setBackground(Color.red);
 //            labeltwo.setBackground(Color.red);
 //            labelthree.setBackground(Color.red);
 //        }
         
-        add(row);
-        
         if (isSelected) { 
             setBackground(list.getSelectionBackground()); 
             setForeground(list.getSelectionForeground()); 
-        } else { 
-            setBackground(list.getBackground()); 
-//            setForeground(list.getForeground()); 
-            labelone.setForeground(Color.CYAN); 
+        } else {
+            boolean isActive = false;
+            try {
+                isActive = (Boolean) value.get(VocabularyModel.Status.ACTIVEPAIR);
+            } catch (Exception e) {
+                System.err.println("exception e: " + e.getMessage());
+            }
+            if (isActive) {
+                setBackground(Color.GREEN); 
+            } else {
+                setBackground(list.getBackground()); 
+                setForeground(list.getForeground()); 
+                labelone.setForeground(Color.CYAN);
+            }
         } 
         
         return this;
     }
 }
-

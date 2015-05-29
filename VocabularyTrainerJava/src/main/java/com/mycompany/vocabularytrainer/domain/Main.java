@@ -5,6 +5,7 @@
  */
 package com.mycompany.vocabularytrainer.domain;
 
+import com.mycompany.vocabularytrainer.domain.interfaces.DecorableVocabularyElementPair;
 import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyElementPair;
 import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyModel;
 import com.mycompany.vocabularytrainer.gui.RepresentativesViewCallback;
@@ -38,14 +39,15 @@ public class Main implements RepresentativesViewCallback {
         JPanel contentPane = (JPanel) frame.getContentPane();
         contentPane.add(guiOptions,BorderLayout.CENTER);
         
+        List<DecorableVocabularyElementPair> pairs = getRepresentatives();
         VocabularyModel model = guiOptions.getModel();
-        model.setVocabularyElementPairs(getRepresentatives());
+        model.setVocabularyElementPairs(pairs);
         model.setActivePairs(getActiveUuids());
         
-        DefaultListModel<VocabularyElementPair> listModel = new DefaultListModel<>();
-        VocabularyPresenter<DefaultVocabularyElementPair> vocPresenter = new VocabularyPresenter<>(listModel);
+        DefaultListModel<DecorableVocabularyElementPair> listModel = new DefaultListModel<>();
+        VocabularyPresenter<DecorableVocabularyElementPair> vocPresenter = new VocabularyPresenter<>(listModel);
         vocPresenter.setCellRenderer(new VocabularyPresenterListCellRenderer());
-        for (VocabularyElementPair pair : getRepresentatives()) {
+        for (DecorableVocabularyElementPair pair : pairs) {
             listModel.addElement(pair);
         }
 //        listModel.addElement(new DefaultRepresentative(new UUID(111,222), "one", null));
@@ -64,9 +66,9 @@ public class Main implements RepresentativesViewCallback {
      */
     public static List<UUID> getActiveUuids() {
         List<UUID> activeUuids = new ArrayList<>();
-        activeUuids.add(new UUID(1,2));
-        activeUuids.add(new UUID(3,4));
-        activeUuids.add(new UUID(5,6));
+        activeUuids.add(new UUID(0,0));
+        activeUuids.add(new UUID(1,1));
+        activeUuids.add(new UUID(7,7));
         
         return activeUuids;
     }
@@ -75,20 +77,48 @@ public class Main implements RepresentativesViewCallback {
      * 
      * @return 
      */
-    public static List<VocabularyElementPair> getRepresentatives() {
-        List<VocabularyElementPair> pairs = new ArrayList<>();
+    public static List<DecorableVocabularyElementPair> getRepresentatives() {
+        List<DecorableVocabularyElementPair> pairs = new ArrayList<>();
         
-        DefaultVocabularyElementPair pair = new DefaultVocabularyElementPair(new UUID(1,2),
-            new DefaultDecorableRepresentative(new UUID(111,222), "one", null),
-            new DefaultDecorableRepresentative(new UUID(333,444), "un", null));
+        DefaultDecorableVocabularyElementPair pair = new DefaultDecorableVocabularyElementPair(new UUID(0,0),
+            new DefaultDecorableRepresentative(new UUID(1,11), "one", null),
+            new DefaultDecorableRepresentative(new UUID(2,22), "un", null));
         pairs.add(pair);
-        pair = new DefaultVocabularyElementPair(new UUID(3,4),
-            new DefaultDecorableRepresentative(new UUID(11,22), "two", null),
-            new DefaultDecorableRepresentative(new UUID(33,44), "deux", null));
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(1,1),
+            new DefaultDecorableRepresentative(new UUID(1,33), "two", null),
+            new DefaultDecorableRepresentative(new UUID(2,44), "deux", null));
         pairs.add(pair);
-        pair = new DefaultVocabularyElementPair(new UUID(5,6),
-            new DefaultDecorableRepresentative(new UUID(1,5), "three", null),
-            new DefaultDecorableRepresentative(new UUID(2,6), "trois", null));
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(2,2),
+            new DefaultDecorableRepresentative(new UUID(1,55), "three", null),
+            new DefaultDecorableRepresentative(new UUID(2,66), "trois", null));
+        pairs.add(pair);
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(3,3),
+            new DefaultDecorableRepresentative(new UUID(1,77), "four", null),
+            new DefaultDecorableRepresentative(new UUID(2,88), "vier", null));
+        pairs.add(pair);
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(4,4),
+            new DefaultDecorableRepresentative(new UUID(1,99), "five", null),
+            new DefaultDecorableRepresentative(new UUID(2,99), "vijf", null));
+        pairs.add(pair);
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(5,5),
+            new DefaultDecorableRepresentative(new UUID(1,111), "six", null),
+            new DefaultDecorableRepresentative(new UUID(2,222), "zes", null));
+        pairs.add(pair);
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(6,6),
+            new DefaultDecorableRepresentative(new UUID(1,333), "seven", null),
+            new DefaultDecorableRepresentative(new UUID(2,444), "zeven", null));
+        pairs.add(pair);
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(7,7),
+            new DefaultDecorableRepresentative(new UUID(1,555), "acht", null),
+            new DefaultDecorableRepresentative(new UUID(2,666), "eight", null));
+        pairs.add(pair);
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(8,8),
+            new DefaultDecorableRepresentative(new UUID(1,777), "nine", null),
+            new DefaultDecorableRepresentative(new UUID(2,888), "negen", null));
+        pairs.add(pair);
+        pair = new DefaultDecorableVocabularyElementPair(new UUID(9,9),
+            new DefaultDecorableRepresentative(new UUID(1,999), "ten", null),
+            new DefaultDecorableRepresentative(new UUID(2,1111), "tien", null));
         pairs.add(pair);
         return pairs;
     }

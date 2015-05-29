@@ -38,6 +38,16 @@ public interface VocabularyModel {
     
     /**
      * 
+     */
+    public enum Status {
+       ACTIVEPAIR,
+       ACTIVEQUERYPAIR,
+       ACTIVEQUERY,
+       ACTIVEQUERYOPTION;
+    };
+    
+    /**
+     * 
      * @param direction 
      */
     public void setDirection(Direction direction);
@@ -46,7 +56,7 @@ public interface VocabularyModel {
      * 
      * @param pairs 
      */
-    public void setVocabularyElementPairs(List<VocabularyElementPair> pairs);
+    public void setVocabularyElementPairs(List<DecorableVocabularyElementPair> pairs);
     
     /**
      * 
@@ -70,7 +80,7 @@ public interface VocabularyModel {
      * 
      * @return 
      */
-    public List<VocabularyElementPair> getActivePairs();
+    public List<DecorableVocabularyElementPair> getActivePairs();
     
     /**
      * 
@@ -93,7 +103,7 @@ public interface VocabularyModel {
      * 
      * @return 
      */
-    public VocabularyElementPair getActiveQueryPair();
+    public DecorableVocabularyElementPair getActiveQueryPair();
     
     /**
      * 

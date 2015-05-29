@@ -2,6 +2,7 @@ package com.mycompany.vocabularytrainer.domain;
 
 
 import com.mycompany.vocabularytrainer.domain.interfaces.DecorableRepresentative;
+import com.mycompany.vocabularytrainer.domain.interfaces.DecorableVocabularyElementPair;
 import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyElementPair;
 import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyModel;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private Map<UUID,VocabularyElementPair> pairs = null;
+    private Map<UUID,DecorableVocabularyElementPair> pairs = null;
     
     /**
      * 
@@ -37,7 +38,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private List<VocabularyElementPair> activePairs = null;
+    private List<DecorableVocabularyElementPair> activePairs = null;
             
     /**
      * 
@@ -47,7 +48,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
     /**
      * 
      */
-    private VocabularyElementPair activeQueryPair = null;
+    private DecorableVocabularyElementPair activeQueryPair = null;
             
     /**
      * 
@@ -87,14 +88,14 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * @param pairs
      */
     @Override
-    public void setVocabularyElementPairs(List<VocabularyElementPair> pairs) {
+    public void setVocabularyElementPairs(List<DecorableVocabularyElementPair> pairs) {
         if (pairs == null) {
             throw new NullPointerException();
         }
         if (this.pairs == null) {
             this.pairs = new HashMap<>();
         }
-        for (VocabularyElementPair pair : pairs) {
+        for (DecorableVocabularyElementPair pair : pairs) {
             this.pairs.put(pair.getUuid(), pair);
         }
         setRandomActivePairsNoUpdate(5); // @TODO Change this to a configuration parameter
@@ -143,7 +144,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * @return 
      */
     @Override
-    public List<VocabularyElementPair> getActivePairs() {
+    public List<DecorableVocabularyElementPair> getActivePairs() {
         if (activePairs == null) {
             activePairs = new ArrayList<>();
         }
@@ -162,11 +163,17 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
         if (this.activePairs == null) {
             this.activePairs = new ArrayList<>();
         }
+        for (DecorableVocabularyElementPair pair : activePairs) {
+            pair.put(Status.ACTIVEPAIR, false);
+            System.out.println("did it register: " + pair.get(Status.ACTIVEPAIR));
+        }
         activePairs.clear();
         for (UUID uuid : activePairUuids) {
-            VocabularyElementPair pair = this.pairs.get(uuid);
+            DecorableVocabularyElementPair pair = this.pairs.get(uuid);
             if (pair != null) {
                 activePairs.add(pair);
+                pair.put(Status.ACTIVEPAIR, true);
+                System.out.println("did it register: " + ((Boolean) pair.get(Status.ACTIVEPAIR) == true));
             }
         }
         updateActiveOptions();
@@ -199,9 +206,9 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * @return 
      */
     @Override
-    public VocabularyElementPair getActiveQueryPair() {
+    public DecorableVocabularyElementPair getActiveQueryPair() {
         if (activeQueryPair == null) {
-            activeQueryPair = new DefaultVocabularyElementPair(UUID.randomUUID(), new DefaultDecorableRepresentative(), new DefaultDecorableRepresentative());
+            activeQueryPair = new DefaultDecorableVocabularyElementPair(UUID.randomUUID(), new DefaultDecorableRepresentative(), new DefaultDecorableRepresentative());
         }
         return activeQueryPair;
     }
@@ -238,12 +245,12 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
             activePairs = new ArrayList<>();
         }
         this.activePairs.clear();
-        List<VocabularyElementPair> temp = new ArrayList<>(this.activePairs);
+        List<DecorableVocabularyElementPair> temp = new ArrayList<>(this.activePairs);
         for (int i = 0;i<nofPairs;++i) {
             if (temp.isEmpty()) break;
             Random r = new Random();
             int newIndex = r.nextInt(temp.size());
-            VocabularyElementPair pair = temp.get(newIndex);
+            DecorableVocabularyElementPair pair = temp.get(newIndex);
             this.activePairs.add(pair);
             temp.remove(pair);
         }
@@ -259,7 +266,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
         if (uuid == null) {
             throw new NullPointerException();
         }
-        VocabularyElementPair pair = pairs.get(uuid);
+        DecorableVocabularyElementPair pair = pairs.get(uuid);
         if (pair == null ||
             !activePairs.contains(pair)) return; // No pair found with given uuid!
         activeQueryPair = pair;
@@ -321,7 +328,7 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
             activeQueryOption = null;
             return;
         }
-        List<VocabularyElementPair> temp = new ArrayList<>(activePairs);
+        List<DecorableVocabularyElementPair> temp = new ArrayList<>(activePairs);
         if (activeQueryPair != null) {
             temp.remove(activeQueryPair);
         }

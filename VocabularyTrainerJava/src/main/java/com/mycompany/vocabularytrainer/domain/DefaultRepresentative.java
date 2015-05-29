@@ -43,7 +43,7 @@ public class DefaultRepresentative implements Representative {
      */
     public DefaultRepresentative() {
         uuid = UUID.randomUUID();
-        image = new BufferedImage(100, 100, TYPE_INT_RGB);
+        image = new BufferedImage(20, 20, TYPE_INT_RGB);
         title = "TITLE";
     }
     

@@ -6,6 +6,7 @@
 package com.mycompany.vocabularytrainer.domain;
 
 import com.mycompany.vocabularytrainer.domain.interfaces.DecorableRepresentative;
+import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyElementPair;
 import java.util.Objects;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
@@ -15,8 +16,8 @@ import org.apache.logging.log4j.Logger;
  *
  * @author andres81
  */
-public class DefaultVocabularyElementPair {
-
+public class DefaultVocabularyElementPair implements VocabularyElementPair {
+    
     // Logging
     private static final Logger logger = LogManager.getLogger(DefaultVocabularyElementPair.class);
     
@@ -42,6 +43,11 @@ public class DefaultVocabularyElementPair {
      * @param second
      */
     public DefaultVocabularyElementPair(UUID uuid, DecorableRepresentative first, DecorableRepresentative second) {
+        if (uuid == null ||
+            first == null ||
+            second == null) {
+            throw new NullPointerException();
+        }
         this.uuid = uuid;
         entryOne = first;
         entryTwo = second;
@@ -51,6 +57,7 @@ public class DefaultVocabularyElementPair {
      * 
      * @return 
      */
+    @Override
     public DecorableRepresentative getFirst() {
         return entryOne;
     }
@@ -59,6 +66,7 @@ public class DefaultVocabularyElementPair {
      * 
      * @return 
      */
+    @Override
     public DecorableRepresentative getSecond() {
         return entryTwo;
     }
@@ -67,6 +75,7 @@ public class DefaultVocabularyElementPair {
      * 
      * @return 
      */
+    @Override
     public UUID getUuid() {
         return uuid;
     }

@@ -5,7 +5,6 @@
  */
 package com.mycompany.vocabularytrainer.domain.interfaces;
 
-import com.mycompany.vocabularytrainer.domain.DefaultVocabularyElementPair;
 import java.util.List;
 import java.util.Observer;
 import java.util.UUID;
@@ -28,6 +27,17 @@ public interface VocabularyModel {
     
     /**
      * 
+     */
+    public enum UpdateType {
+       PAIRS,
+       ACTIVEPAIRS,
+       DIRECTION,
+       ACTIVEPAIR,
+       INTERACTIONTYPE;
+    };
+    
+    /**
+     * 
      * @param direction 
      */
     public void setDirection(Direction direction);
@@ -36,7 +46,7 @@ public interface VocabularyModel {
      * 
      * @param pairs 
      */
-    public void setVocabularyElementPairs(List<DefaultVocabularyElementPair> pairs);
+    public void setVocabularyElementPairs(List<VocabularyElementPair> pairs);
     
     /**
      * 
@@ -60,7 +70,7 @@ public interface VocabularyModel {
      * 
      * @return 
      */
-    public List<DefaultVocabularyElementPair> getActivePairs();
+    public List<VocabularyElementPair> getActivePairs();
     
     /**
      * 
@@ -77,24 +87,23 @@ public interface VocabularyModel {
     /**
      * 
      */
-    public void setActiveQueryPair();
+    public void setRandomActiveQueryPair();
     
     /**
      * 
      * @return 
      */
-    public DefaultVocabularyElementPair getActiveQueryPair();
-    
-    /**
-     * 
-     * @param uuid
-     * @return 
-     */
-    public boolean isQueryOption(UUID uuid);
+    public VocabularyElementPair getActiveQueryPair();
     
     /**
      * 
      * @param o 
      */
     public void addObserver(Observer o);
+    
+    /**
+     * 
+     * @param nofPairs 
+     */
+    public void setRandomActivePairs(int nofPairs);
 }

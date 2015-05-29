@@ -43,8 +43,8 @@ public class DefaultVocabularyController implements VocabularyController {
     @Override
     public void doGuess(UUID uuid) {
         if (model != null) {
-            if (model.isQueryOption(uuid)) {
-                model.setActiveQueryPair();
+            if (model.getActiveQueryOption().getUuid() == uuid) {
+                model.setRandomActiveQueryPair();
             }
         }
     }

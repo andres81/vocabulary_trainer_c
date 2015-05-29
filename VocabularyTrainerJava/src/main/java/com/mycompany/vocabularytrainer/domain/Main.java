@@ -5,6 +5,7 @@
  */
 package com.mycompany.vocabularytrainer.domain;
 
+import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyElementPair;
 import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyModel;
 import com.mycompany.vocabularytrainer.gui.RepresentativesViewCallback;
 import com.mycompany.vocabularytrainer.gui.VocabularyExercise;
@@ -41,10 +42,10 @@ public class Main implements RepresentativesViewCallback {
         model.setVocabularyElementPairs(getRepresentatives());
         model.setActivePairs(getActiveUuids());
         
-        DefaultListModel<DefaultVocabularyElementPair> listModel = new DefaultListModel<>();
+        DefaultListModel<VocabularyElementPair> listModel = new DefaultListModel<>();
         VocabularyPresenter<DefaultVocabularyElementPair> vocPresenter = new VocabularyPresenter<>(listModel);
         vocPresenter.setCellRenderer(new VocabularyPresenterListCellRenderer());
-        for (DefaultVocabularyElementPair pair : getRepresentatives()) {
+        for (VocabularyElementPair pair : getRepresentatives()) {
             listModel.addElement(pair);
         }
 //        listModel.addElement(new DefaultRepresentative(new UUID(111,222), "one", null));
@@ -74,8 +75,8 @@ public class Main implements RepresentativesViewCallback {
      * 
      * @return 
      */
-    public static List<DefaultVocabularyElementPair> getRepresentatives() {
-        List<DefaultVocabularyElementPair> pairs = new ArrayList<>();
+    public static List<VocabularyElementPair> getRepresentatives() {
+        List<VocabularyElementPair> pairs = new ArrayList<>();
         
         DefaultVocabularyElementPair pair = new DefaultVocabularyElementPair(new UUID(1,2),
             new DefaultDecorableRepresentative(new UUID(111,222), "one", null),

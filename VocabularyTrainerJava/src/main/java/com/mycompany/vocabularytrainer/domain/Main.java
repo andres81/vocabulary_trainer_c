@@ -1,22 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * VocabularyTrainer  Copyright (C) 2015  André Schepers
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.mycompany.vocabularytrainer.domain;
 
 import com.mycompany.vocabularytrainer.domain.interfaces.DecorableVocabularyElementPair;
-import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyElementPair;
 import com.mycompany.vocabularytrainer.domain.interfaces.VocabularyModel;
 import com.mycompany.vocabularytrainer.gui.RepresentativesViewCallback;
 import com.mycompany.vocabularytrainer.gui.VocabularyExercise;
 import com.mycompany.vocabularytrainer.gui.VocabularyPresenter;
-import com.mycompany.vocabularytrainer.gui.VocabularyPresenterListCellRenderer;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,22 +47,10 @@ public class Main implements RepresentativesViewCallback {
         JPanel contentPane = (JPanel) frame.getContentPane();
         contentPane.add(guiOptions,BorderLayout.CENTER);
         
-        List<DecorableVocabularyElementPair> pairs = getRepresentatives();
         VocabularyModel model = guiOptions.getModel();
-        model.setVocabularyElementPairs(pairs);
-        model.setActivePairs(getActiveUuids());
+        model.setVocabularyElementPairs(getRepresentatives());
         
-        DefaultListModel<DecorableVocabularyElementPair> listModel = new DefaultListModel<>();
-        VocabularyPresenter<DecorableVocabularyElementPair> vocPresenter = new VocabularyPresenter<>(listModel);
-        vocPresenter.setCellRenderer(new VocabularyPresenterListCellRenderer());
-        for (DecorableVocabularyElementPair pair : pairs) {
-            listModel.addElement(pair);
-        }
-//        listModel.addElement(new DefaultRepresentative(new UUID(111,222), "one", null));
-//        listModel.addElement(new DefaultRepresentative(new UUID(211,222), "two", null));
-//        listModel.addElement(new DefaultRepresentative(new UUID(311,222), "three", null));
-        
-        contentPane.add(new JScrollPane(vocPresenter),BorderLayout.EAST);
+        contentPane.add(new JScrollPane(new VocabularyPresenter(model)),BorderLayout.EAST);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -128,5 +124,4 @@ public class Main implements RepresentativesViewCallback {
         logger.info("uuid received: " + uuid.toString());
         
     }
-    
 }

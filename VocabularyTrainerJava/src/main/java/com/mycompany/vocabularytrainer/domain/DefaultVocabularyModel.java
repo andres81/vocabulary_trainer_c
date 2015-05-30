@@ -1,3 +1,19 @@
+/**
+ * VocabularyTrainer  Copyright (C) 2015  André Schepers
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.mycompany.vocabularytrainer.domain;
 
 
@@ -108,6 +124,15 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
      * @return 
      */
     @Override
+    public List<DecorableVocabularyElementPair> getVocabularyElementPairs() {
+        return new ArrayList<>(pairs.values());
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    @Override
     public List<DecorableRepresentative> getActiveOptions() {
         if (activeOptions == null) {
             activeOptions = new ArrayList<>();
@@ -165,7 +190,6 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
         }
         for (DecorableVocabularyElementPair pair : activePairs) {
             pair.put(Status.ACTIVEPAIR, false);
-            System.out.println("did it register: " + pair.get(Status.ACTIVEPAIR));
         }
         activePairs.clear();
         for (UUID uuid : activePairUuids) {
@@ -173,7 +197,6 @@ public class DefaultVocabularyModel extends Observable implements VocabularyMode
             if (pair != null) {
                 activePairs.add(pair);
                 pair.put(Status.ACTIVEPAIR, true);
-                System.out.println("did it register: " + ((Boolean) pair.get(Status.ACTIVEPAIR) == true));
             }
         }
         updateActiveOptions();

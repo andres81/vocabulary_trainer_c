@@ -14,19 +14,13 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycompany.vocabularytrainer.gui;
+package com.mycompany.vocabularytrainer.domain.interfaces;
 
-import java.util.UUID;
+import java.util.Map;
 
 /**
  *
  * @author andres81
  */
-public interface RepresentativesViewCallback {
-    
-    /**
-     * 
-     * @param uuid 
-     */
-    public void representativeClicked(UUID uuid);
+public interface DecorableVocabularyElementPair extends VocabularyElementPair, Map<Object,Object> {
 }

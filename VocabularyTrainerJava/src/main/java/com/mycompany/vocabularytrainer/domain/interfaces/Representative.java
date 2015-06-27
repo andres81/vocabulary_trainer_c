@@ -14,19 +14,40 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycompany.vocabularytrainer.gui;
+package com.mycompany.vocabularytrainer.domain.interfaces;
 
+import java.awt.Image;
 import java.util.UUID;
 
 /**
  *
  * @author andres81
  */
-public interface RepresentativesViewCallback {
+public interface Representative {
+
+    /**
+     * 
+     * @return 
+     */
+    public Image getImage();
     
     /**
      * 
-     * @param uuid 
+     * @return 
      */
-    public void representativeClicked(UUID uuid);
+    public String getTitle();
+
+    /**
+     * 
+     * @return 
+     */
+    public UUID getUuid();
+    
+    /**
+     * 
+     */
+    public enum Representation {
+       STRING,
+       IMAGE;
+    }
 }

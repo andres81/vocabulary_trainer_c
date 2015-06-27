@@ -14,7 +14,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mycompany.vocabularytrainer.gui;
+package com.mycompany.vocabularytrainer.domain.interfaces;
 
 import java.util.UUID;
 
@@ -22,11 +22,17 @@ import java.util.UUID;
  *
  * @author andres81
  */
-public interface RepresentativesViewCallback {
-    
+public interface VocabularyController {
+
     /**
      * 
      * @param uuid 
      */
-    public void representativeClicked(UUID uuid);
+    public void doGuess(UUID uuid);
+    
+    /**
+     * 
+     * @param model 
+     */
+    public void setModel(VocabularyModel model);
 }

@@ -10,3 +10,4 @@
 VocabularyTrainerGui/VocabularyTrainerGui
 *.vpp.working*
 *.vpp~*
+VocabularyTrainerJava/target/*

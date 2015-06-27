@@ -173,6 +173,8 @@ public class VocabularyPresenter extends JPanel implements ListSelectionListener
         if (currentSelection != null &&
             !currentSelection.isEmpty()) {
             model.setActivePairs(currentSelection);
+            vocabularyPairsList.updateUI();
+            vocabularyPairsList.clearSelection();
         }
     }
 }

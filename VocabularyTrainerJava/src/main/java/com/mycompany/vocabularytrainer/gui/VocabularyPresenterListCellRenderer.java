@@ -77,15 +77,7 @@ public class VocabularyPresenterListCellRenderer
         add(labeltwo);
         add(labelthree);
 
-        
-  
-//        if (isSelected) {
-//            labelone.setBackground(Color.red);
-//            labeltwo.setBackground(Color.red);
-//            labelthree.setBackground(Color.red);
-//        }
-        
-        if (isSelected) { 
+        if (isSelected) {
             setBackground(list.getSelectionBackground()); 
             setForeground(list.getSelectionForeground()); 
         } else {

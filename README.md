@@ -29,7 +29,7 @@ To learn a vocabulary fast, the best way is to ****do**** the vocabulary. What d
 1. Choose one pair, which we call the query pair.
 1. Set the element in column 1 of the query pair as the element the user has to guess.
 1. Set the elements in column 2 of the five pairs as the options, the elements from which the user can choose
-1. If the user chooses wrong, do nothing, if the user chooses the correct element from column 2, choose another pair and set it as the query pair.
+1. If the user chooses wrong, do nothing, if the user chooses the correct element from column 2, choose another pair and set it as the query pair. Go to 3.
 
 Why do nothing? Punishment is never good. Only positive reinforcement works. Don't punish the behaviour you don't want, but reinforce the behaviour you wish to be performed.
 
@@ -57,3 +57,8 @@ With the previously given setup, the user should be presented with a set of opti
 1. Change the query and option columns ( column1 - column2, column2 - column1, column1 - column1, column2 - column2.
 1. Change the presentation of elements for the query and option column.
 1. Change the five pairs that are being practiced.
+
+## Advanced
+
+Let the user warm up. When five pairs have been chosen, let the user get the options in shortterm memory. Do this by querying the options.
+An advanced way by doing this would be by using keyboard keys that are mapped to each of the five options. The keys A,S,D,E, shift and space would be ideal, for those keys are used tremendously much for game controls.

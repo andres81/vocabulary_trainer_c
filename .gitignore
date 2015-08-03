@@ -12,3 +12,4 @@ VocabularyTrainerGui/VocabularyTrainerGui
 *.vpp~*
 VocabularyTrainerJava/target/*
 *.class
+/target/
